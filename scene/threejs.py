@@ -1,28 +1,46 @@
-##Copyright 2011-2019 Thomas Paviot (tpaviot@gmail.com)
-##
-##This file is part of pythonOCC.
-##
-##pythonOCC is free software: you can redistribute it and/or modify
-##it under the terms of the GNU Lesser General Public License as published by
-##the Free Software Foundation, either version 3 of the License, or
-##(at your option) any later version.
-##
-##pythonOCC is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Lesser General Public License for more details.
-##
-##You should have received a copy of the GNU Lesser General Public License
-##along with pythonOCC.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import sys
 import uuid
 import json
 
 from OCC.Core.Tesselator import ShapeTesselator
 
 from OCC.Extend.TopologyUtils import is_edge, is_wire, discretize_edge, discretize_wire
+from OCC.Extend.DataExchange import write_stl_file
+
+
+class StlRenderer:
+    
+    def __init__(self, precision, path):
+        if not path:
+            raise Exception('StlRenderer need path for exported files')
+        self._path = path
+        self.precision = precision
+        self.shapeNum = 1
+        
+        print("Stl renderer init")
+       
+    def drawPoint(self, pnt, color, size):
+        pass
+      
+    def drawLabel(self, pnt, text, color):
+        pass
+  
+    def drawShape(self,  shape):
+        shape_precision, wire_precision = self.precision 
+        if is_edge(shape):
+            pass
+        elif is_wire(shape):
+            pass
+        else: #solid or shell
+            print("export shape %s to STL start", str(self.shapeNum).zfill(3))
+            shape_hash = "exp_%s_shape" % str(self.shapeNum).zfill(3)
+            shape_full_path = os.path.join(self._path, shape_hash + '.stl')
+            write_stl_file(shape, shape_full_path, "ascii", shape_precision/4, 0.5/4)
+            print("export shape %s to STL done", str(self.shapeNum).zfill(3))
+            self.shapeNum += 1
+         
+    
 
 def jsBool(bool):          
   if bool:
@@ -74,8 +92,6 @@ class ThreeJsRenderer:
             raise Exception('ThreeJsRenderer need path for exported files')
         self._path = path
         self._js_filename = os.path.join(self._path, "slide.js")
-        self._3js_shapes = {}
-        self._3js_edges = {}
         self.decoration = decoration
         self.precision = precision
         self.shapeNum = 1
@@ -84,10 +100,12 @@ class ThreeJsRenderer:
         print("## threejs %s webgl renderer")
        
     def drawPoint(self, pnt, color, size):
-        pass
-
-    def drawLabel(self, pnt, text, style):
-        pass
+       self.stringList.append("\tzdeskXPoint(%g, %g, %g, %s, %g);\n"
+                                        % (pnt.X(), pnt.Y(), pnt.Z(), color_to_hex(color), size))
+      
+    def drawLabel(self, pnt, text, color):
+       self.stringList.append("\tzdeskXLabel(%g, %g, %g, '%s', %s);\n"
+                                        % (pnt.X(), pnt.Y(), pnt.Z(), text, color_to_hex(color)))
   
     def drawShape(self,
                      shape,
@@ -103,33 +121,33 @@ class ThreeJsRenderer:
             print("discretize an edge")
             pnts = discretize_edge(shape, wire_precision)
             edge_hash = "exp_%s_edge" % str(self.shapeNum).zfill(3)
-            self.shapeNum += 1;
+            self.shapeNum += 1
             str_to_write = export_edgedata_to_json(edge_hash, pnts)
             edge_full_path = os.path.join(self._path, edge_hash + '.json')
             with open(edge_full_path, "w") as edge_file:
                 edge_file.write(str_to_write)
             # store this edge hash
-            self.stringList.append("\tzdeskCurve(slidePath+'%s.json', %s, %g);\n"
+            self.stringList.append("\tzdeskXCurve(slidePath+'%s.json', %s, %g);\n"
                                         % (edge_hash, color_to_hex(color), line_width))
             print("%s, %i segments" % (edge_hash ,len(pnts)-1))
         elif is_wire(shape):
             print("discretize a wire")
             pnts = discretize_wire(shape, wire_precision)
             wire_hash = "exp_%s_wire" % str(self.shapeNum).zfill(3)
-            self.shapeNum += 1;
+            self.shapeNum += 1
             str_to_write = export_edgedata_to_json(wire_hash, pnts)
             wire_full_path = os.path.join(self._path, wire_hash + '.json')
             with open(wire_full_path, "w") as wire_file:
                 wire_file.write(str_to_write)
             # store this edge hash
-            self.stringList.append("\tzdeskCurve(slidePath+'%s.json', %s, %g);\n"
+            self.stringList.append("\tzdeskXCurve(slidePath+'%s.json', %s, %g);\n"
                                         % (wire_hash, color_to_hex(color), line_width))
             print("%s, %i segments" % (wire_hash ,len(pnts)-1))
         else: #solid or shell
             print("tesselate a shape")
             shape_uuid = uuid.uuid4().hex
             shape_hash = "exp_%s_shape" % str(self.shapeNum).zfill(3)
-            self.shapeNum += 1;
+            self.shapeNum += 1
             # tesselate
             tess = ShapeTesselator(shape)
             tess.Compute(compute_edges=False,
@@ -139,7 +157,7 @@ class ThreeJsRenderer:
             shape_full_path = os.path.join(self._path, shape_hash + '.json')
             with open(shape_full_path, 'w') as json_file:
                 json_file.write(tess.ExportShapeToThreejsJSONString(shape_uuid))
-            self.stringList.append("\tzdeskShape(slidePath+'%s.json', %s, %s, %g, %g);\n"
+            self.stringList.append("\tzdeskXShape(slidePath+'%s.json', %s, %s, %g, %g);\n"
                                         % (shape_hash, color_to_hex(color), color_to_hex(specular_color), shininess, 1 - transparency))
             print("%s, %i triangles\n" % (shape_hash, tess.ObjGetTriangleCount()))
        
