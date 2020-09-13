@@ -70,6 +70,6 @@ STL файлы Дао
 
 ## Контакты
 
-Официальный сайт проекта [https://headfire.github.io/zpoint](https://headfire.github.io/crpoint)
+Официальный сайт проекта [https://headfire.github.io/zpoint](https://headfire.github.io/zpoint)
 
 Пишите про Ваши идеи и предложения на [headfire@yandex.ru](mailto:headfire@yandex.ru)
