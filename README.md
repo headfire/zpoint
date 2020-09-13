@@ -30,18 +30,18 @@
 Если Вы владеете режимом Перекрестного взгляда - он тоже есть.
 
 Для примера посмотрите слайды про построение фигуры Дао в объеме:
-- [Слайд 01 Контур классического Дао]( https://headfire.github.io/crpoint/viewer/index.html?paper=dao&slide=slide_01_DaoClassic)
-- [Слайд 02 Контур Дао с отступом ]( https://headfire.github.io/crpoint/viewer/index.html?paper=dao&slide=slide_02_DaoConcept)
-- [Слайд 03 Принцип построения сечений ]( https://headfire.github.io/crpoint/viewer/index.html?paper=dao&slide=slide_03_DaoSecPrincipe)
-- [Слайд 04 Форма Дао из сечений ]( https://headfire.github.io/crpoint/viewer/index.html?paper=dao&slide=slide_04_DaoManySec)
-- [Слайд 05 Протягивание поверхности через сечения ]( https://headfire.github.io/crpoint/viewer/index.html?paper=dao&slide=slide_05_DaoSkinning)
-- [Слайд 06 Окончательная форма Дао ]( https://headfire.github.io/crpoint/viewer/index.html?paper=dao&slide=slide_06_DaoComplete)
-- [Слайд 07 Форма Дао с основанием ]( https://headfire.github.io/crpoint/viewer/index.html?paper=dao&slide=slide_07_DaoWithCase)
+- [Слайд 01 Контур классического Дао]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_01_DaoClassic)
+- [Слайд 02 Контур Дао с отступом ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_02_DaoConcept)
+- [Слайд 03 Принцип построения сечений ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_03_DaoSecPrincipe)
+- [Слайд 04 Форма Дао из сечений ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_04_DaoManySec)
+- [Слайд 05 Протягивание поверхности через сечения ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_05_DaoSkinning)
+- [Слайд 06 Окончательная форма Дао ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_06_DaoComplete)
+- [Слайд 07 Форма Дао с основанием ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_07_DaoWithCase)
 
 STL файлы Дао 
-- [Инь]( https://headfire.github.io/crpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_001_shape.stl)
-- [Янь]( https://headfire.github.io/crpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_002_shape.stl)
-- [Основание]( https://headfire.github.io/crpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_003_shape.stl)
+- [Инь]( https://headfire.github.io/zpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_001_shape.stl)
+- [Янь]( https://headfire.github.io/zpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_002_shape.stl)
+- [Основание]( https://headfire.github.io/zpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_003_shape.stl)
 
 Не перепутайте Инь и Янь :) (отличий нет, но мало ли чего)
 
@@ -56,7 +56,7 @@ STL файлы Дао
 
 ## Узнать больше
 
-[Установка среды разработки OpenCascade - Python 3.7 - Win64](docs/00_00_setup.md) 
+[Установка среды разработки OpenCascade - Python 3.7 - Win64](https://headfire.github.io/zpoint/docs/00_00_setup.md) 
 
 <!--
 [Библиотка Scene - базовая система команд](docs/00_01_scene.md)
@@ -65,11 +65,11 @@ STL файлы Дао
 
 ## Библиотека презентаций
 
-[Web-просмотрщик - параметры URL-строки и действия в режиме просмотра](docs/00_03_viewer.md)
+[Web-просмотрщик - параметры URL-строки и действия в режиме просмотра](https://headfire.github.io/zpoint/docs/00_03_viewer.md)
 -->
 
 ## Контакты
 
-Официальный сайт проекта [https://headfire.github.io/crpoint](https://headfire.github.io/crpoint)
+Официальный сайт проекта [https://headfire.github.io/zpoint](https://headfire.github.io/zpoint)
 
 Пишите про Ваши идеи и предложения на [headfire@yandex.ru](mailto:headfire@yandex.ru)
