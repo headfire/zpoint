@@ -1,14 +1,4 @@
-:root {
-	--accent: #0094ff;
-/* 	--accent: #d7577e; */
-	
-	--main: #ffffff;
-}
-body {
-	width: 100%;
-	height: 100%;
-	background: #d7577e;
-}
+
 html {
 	display: flex;
 	justify-content: center;
@@ -19,20 +9,15 @@ html {
 	font-size: 16px;
 	color: var(--main);
 }
-.player-container {
-	padding: 40px;
-	max-width: 700px;
-	margin: auto;
+.player{
+   position:absolute; 
+   top:70px; 
+   bottom:40px;
+   left:40px;
+   right:40px;
+   background: #000000;
 }
-.player {
-	width: 100%;
-	height: 0;
-	padding-bottom: 56.25%;
-	box-shadow: 0px 10px 0px -3px rgba(0, 0, 0, 0.2);
-	position: relative;
-	overflow: hidden;
-	background: #000000;
-}
+
 .player:fullscreen {
 	padding-bottom: 100vh;
 }
@@ -45,29 +30,26 @@ html {
 .player:-ms-fullscreen  {
 	padding-bottom: 100vh;
 }
-.player video {
-	width: 100%;
-	height: auto;
-	position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
+
 .controls {
 	padding: 0;
 	position: absolute;
-	bottom: -80px;
+	bottom: 0px;
 	width: 100%;
 	height: 48px;
 	box-sizing: border-box;
-	background: linear-gradient(
+	background: black;
+/*	background: linear-gradient(
 		180deg,
 		rgba(37, 37, 37, 0) 10%,
 		rgba(37, 37, 37, 0.6) 80%
 	);
+*/	opacity: 0;
 	transition: all 0.2s ease-in 5s;
 }
-.player:hover .controls {
+.controls:hover {
 	bottom: 0;
+	opacity: 1;
 	transition: all 0.2s ease-out;
 }
 .time {
@@ -84,7 +66,7 @@ html {
 	border-radius: 6px;
 	position: absolute;
 	left: 20px;
-	bottom: 100%;
+	bottom: 120%;
 	transition: height 0.1s ease-in-out;
 }
 .progress:hover {
