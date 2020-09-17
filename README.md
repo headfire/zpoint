@@ -76,6 +76,6 @@ STL файлы Дао
 
 ## Бонус: Вопросы и ответы
 
-[Как построить линию пересечения профилей](https://headfire.github.io/zpoint/docs/questions/00-01_profile.md) 
+[Как построить линию пересечения профилей](https://headfire.github.io/zpoint/docs/questions/00_01_profile.md) 
 
 ## Бонус: Рассказы о программистах
