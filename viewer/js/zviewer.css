@@ -12,7 +12,7 @@ html {
 
 .icon {
   width:48px;
-  height:36px;  
+  height:30px;  
   fill:gray;
 }
 
@@ -62,7 +62,18 @@ html {
 	padding: 0;
 	position: absolute;
 	bottom: 0px;
-	width: 50%;
+	width: 100%;
+	height: 48px;
+	box-sizing: border-box;
+	background: black;
+	opacity: 1;
+}
+
+.upcontrols {
+	padding: 0;
+	position: absolute;
+	top: 0px;
+	width: 100%;
 	height: 48px;
 	box-sizing: border-box;
 	background: black;
@@ -97,7 +108,16 @@ html {
 	border-radius: 6px;
 	transition: all 0.1s; 
 }
+
 .controls-main {
+	width: 100%;
+	margin: auto;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.upcontrols-main {
 	width: 100%;
 	margin: auto;
 	height: 100%;
@@ -122,6 +142,21 @@ html {
 	margin-left: 10px;
 }
 .controls-right {
+	margin-right: 10px;
+	justify-content: flex-end;
+}
+
+.upcontrols-left,
+.upcontrols-right {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+}
+.upcontrols-left {
+	margin-left: 10px;
+}
+.upcontrols-right {
 	margin-right: 10px;
 	justify-content: flex-end;
 }
