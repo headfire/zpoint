@@ -1,6 +1,6 @@
 # Точка сборки
 
-## cистема создания 3D стерео презентаций
+**Cистема создания 3D стерео презентаций**
 
 Официальный сайт проекта [https://headfire.github.io/zpoint](https://headfire.github.io/zpoint)
 
