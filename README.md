@@ -1,6 +1,10 @@
-# Точка сборки - 3D
+# Точка сборки
 
-## Система создания 3D стерео презентаций
+Система создания **3D стерео презентаций**
+
+Официальный сайт проекта [https://headfire.github.io/zpoint](https://headfire.github.io/zpoint)
+
+Пишите про Ваши идеи и предложения на [headfire@yandex.ru](mailto:headfire@yandex.ru)
 
  <img src="images/logo.png" style="zoom:50%;" />
 
@@ -68,9 +72,6 @@ STL файлы Дао
 
 ## Контакты
 
-Официальный сайт проекта [https://headfire.github.io/zpoint](https://headfire.github.io/zpoint)
-
-Пишите про Ваши идеи и предложения на [headfire@yandex.ru](mailto:headfire@yandex.ru)
 
 ## Бонус: Вопросы и ответы
 
