@@ -73,3 +73,9 @@ STL файлы Дао
 Официальный сайт проекта [https://headfire.github.io/zpoint](https://headfire.github.io/zpoint)
 
 Пишите про Ваши идеи и предложения на [headfire@yandex.ru](mailto:headfire@yandex.ru)
+
+## Бонус: Вопросы и ответы
+
+[Как построить линию пересечения профилей](https://headfire.github.io/zpoint/docs/questions/00-01_profile.md) 
+
+## Бонус: Рассказы о программистах
