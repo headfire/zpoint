@@ -12,6 +12,8 @@ var textTotal = document.querySelector('.time-total');
 var speedBtns = document.querySelectorAll('.speed-item');
 var fullscreenBtn =document.querySelector('.fullscreen'); 
 
+
+
 //GLOBAL VARS
 let lastVolume = 1;
 let isMouseDown = false;
@@ -118,23 +120,23 @@ function handleKeypress(e) {
 	}
 }
 //EVENT LISTENERS
-playBtn.addEventListener('click', togglePlay);
 /*
+playBtn.addEventListener('click', togglePlay);
 video.addEventListener('click', togglePlay);
 video.addEventListener('play', togglePlayBtn);
 video.addEventListener('pause', togglePlayBtn);
 video.addEventListener('ended', togglePlayBtn);
 video.addEventListener('timeupdate', updateProgress);
 video.addEventListener('canplay', updateProgress);
-*/
 volumeBtn.addEventListener('click', toggleMute);
 window.addEventListener('mousedown', () => isMouseDown = true)
 window.addEventListener('mouseup', () => isMouseDown = false)
 // volumeSlider.addEventListener('mouseover', changeVolume);
-volumeSlider.addEventListener('click', changeVolume);
+//volumeSlider.addEventListener('click', changeVolume);
 progressSlider.addEventListener('click', setProgress);
 fullscreenBtn.addEventListener('click', toggleFullscreen);
-speedBtns.forEach(speedBtn => {
-	speedBtn.addEventListener('click', setSpeed);
+//speedBtns.forEach(speedBtn => {
+//	speedBtn.addEventListener('click', setSpeed);
 })
 window.addEventListener('keydown', handleKeypress);
+*/

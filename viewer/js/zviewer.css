@@ -10,13 +10,13 @@ html {
 	color: var(--main);
 }
 
-.btn {
+.icon {
   width:48px;
-  height:40px;  
+  height:36px;  
   fill:gray;
 }
 
-.btn:hover {
+.icon:hover {
   fill:white;	
 }
 
@@ -104,6 +104,13 @@ html {
 	display: flex;
 	justify-content: space-between;
 }
+
+.controls-center {
+	align-items: center;
+	display: flex;
+    justify-content: space-between;
+}
+
 .controls-left,
 .controls-right {
 	flex: 1;

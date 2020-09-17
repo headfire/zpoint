@@ -1,3 +1,5 @@
+
+
 var mainModeFlag = 'mono-mode';
 var mainInfoFlag = 'info-on';
 var mainErrorMessage = '';
