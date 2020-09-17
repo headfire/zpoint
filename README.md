@@ -56,7 +56,7 @@ STL файлы Дао
 
 ## Узнать больше
 
-[Установка среды разработки OpenCascade - Python 3.7 - Win64](https://headfire.github.io/zpoint/docs/00_00_setup.md) 
+[Установка среды разработки OpenCascade - Python 3.7 - Win64](https://headfire.github.io/zpoint/docs/00_00_setup) 
 
 <!--
 [Библиотка Scene - базовая система команд](docs/00_01_scene.md)
@@ -76,6 +76,6 @@ STL файлы Дао
 
 ## Бонус: Вопросы и ответы
 
-[Как построить линию пересечения профилей](https://headfire.github.io/zpoint/docs/questions/00_01_profile.md) 
+[Как построить линию пересечения профилей](https://headfire.github.io/zpoint/docs/questions/00_01_profile) 
 
 ## Бонус: Рассказы о программистах
