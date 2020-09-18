@@ -131,6 +131,12 @@ html {
     justify-content: space-between;
 }
 
+.upcontrols-center {
+	align-items: center;
+	display: flex;
+    justify-content: space-between;
+}
+
 .controls-left,
 .controls-right {
 	flex: 1;
