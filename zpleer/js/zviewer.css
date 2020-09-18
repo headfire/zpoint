@@ -1,4 +1,32 @@
 
+.hide {
+ display:none
+}
+
+.show {
+ display:block
+}
+
+
+.drawarea {
+   position:absolute; 
+}
+
+.drawarea-margin {
+   top:30px; 
+   bottom:30px;
+   left:30px;
+   right:30px;
+}
+
+.drawarea-nomargin {
+   top:0px; 
+   bottom:0px;
+   left:0px;
+   right:0px;
+}
+
+
 html {
 	display: flex;
 	justify-content: center;

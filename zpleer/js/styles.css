@@ -7,13 +7,6 @@
       font-size: 14px;
     }
 	
-	#drawArea {
-	   position:absolute; 
-	   top:70px; 
-	   bottom:40px;
-	   left:40px;
-	   right:40px;
-	}
 
 	#drawZone {
 	  width:100%;

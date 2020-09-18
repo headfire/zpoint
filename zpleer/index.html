@@ -8,17 +8,8 @@
     <link href='js/zviewer.css' rel='stylesheet' type='text/css' />
 </head>
 <body>
-<div style = ' position:absolute; top:10px; height:50px; left:40px; right:40px;' >
-   <h2 class='slide-name'><font color='gray'>Точка сборки 3D</font>&nbsp;&nbsp;&nbsp;&nbsp;Cоздание объемных стерео презентаций</h2> 
-</div>
 
-
-<div style = ' position:absolute; top:25px; height:100px;right:40px;width:300px; text-align:right;' >
-   <a href='#' onclick='mainLoadPopup("about")'>Информация о слайде</a>
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</div>
-
-<div id='drawArea'>
+<div class='drawarea drawarea-nomargin'>
 <div id='drawZone' class='mono-mode text-on play-off' >
 
 <div id='webgl'>
@@ -26,20 +17,18 @@
        <div class='upcontrols'>
 	      <div class='upcontrols-main'>
 				<div  class='upcontrols-left'>
-		          <div class='btn-logo gray'>
+		          <div>
 						<svg height="30px"  viewBox="43 24 68 58" >
 						<path transform="scale(.26458)" d="m166.89 94.119c0 19.884 4.1845 44.74 22.484 66.65 18.3 21.911 48.82 39.933 97.92 53.092 38.92 10.43 59.167 26.802 71 43.441 11.833 16.639 15.452 34.555 16.535 49.355l39.328-1.1172c-1.3723-18.756-7.8869-45.995-25.059-70.141-17.172-24.146-46.443-45.827-92.023-58.043-44.519-11.931-67.195-27.052-78.689-40.814s-13.701-27.115-13.701-42.424h-37.795z" fill="#0ebcf7"  />
 						  <path d="m77.416 36.361c-8.6883 0-15.936 7.0419-15.936 15.719 0 8.6768 7.2472 15.719 15.936 15.719s15.936-7.0419 15.936-15.719c0-8.6768-7.2472-15.719-15.936-15.719z" fill="#0ebcf7" />
-						 
 						</svg>
-						<!-- <ellipse cx="77.536" cy="51.755" rx="9.4198" ry="9.095"  fill="#000000" />  fill="#f60702"  -->
                   </div>
-				  <div class='slide-title'>
+				  <div>
 				    <span style="color:#0ebcf7; margin:20px; font-size:25px;">Точка сборки 3D</span> 
 				  </div>
 				</div>
 				<div class='upcontrols-center'>
-					<span style="color:gray; margin:20px; font-size:25px;">Система создания 3D стерео презентаций</span>
+					<span class='slide-title' style="color:gray; margin:20px; font-size:25px;">Система создания 3D стерео презентаций</span>
 				</div>
 				<div  class='upcontrols-right'>
 				    <div title='Поделится' class='btn-share gray'>
@@ -52,7 +41,7 @@
                          <path d="M24 14c5.52 0 10 4.48 10 10 0 1.29-.26 2.52-.71 3.65l5.85 5.85c3.02-2.52 5.4-5.78 6.87-9.5-3.47-8.78-12-15-22.01-15-2.8 0-5.48.5-7.97 1.4l4.32 4.31c1.13-.44 2.36-.71 3.65-.71zm-20-5.45l4.56 4.56.91.91c-3.3 2.58-5.91 6.01-7.47 9.98 3.46 8.78 12 15 22 15 3.1 0 6.06-.6 8.77-1.69l.85.85 5.83 5.84 2.55-2.54-35.45-35.46-2.55 2.55zm11.06 11.05l3.09 3.09c-.09.43-.15.86-.15 1.31 0 3.31 2.69 6 6 6 .45 0 .88-.06 1.3-.15l3.09 3.09c-1.33.66-2.81 1.06-4.39 1.06-5.52 0-10-4.48-10-10 0-1.58.4-3.06 1.06-4.4zm8.61-1.57l6.3 6.3.03-.33c0-3.31-2.69-6-6-6l-.33.03z"/>
                        </svg>
 					</div>
-					<div title='Узнать больше' >
+					<div title='О проекте' onclick='playerOnAbout()' >
 						<svg class='icon' viewBox='0 0 48 48'>
 							<path d='M24 4c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm2 34h-4v-4h4v4zm4.13-15.49l-1.79 1.84c-1.44 1.44-2.34 2.65-2.34 5.65h-4v-1c0-2.21.9-4.21 2.34-5.66l2.49-2.52c.72-.72 1.17-1.72 1.17-2.82 0-2.21-1.79-4-4-4s-4 1.79-4 4h-4c0-4.42 3.58-8 8-8s8 3.58 8 8c0 1.76-.71 3.35-1.87 4.51z'/>
 						</svg>
@@ -158,10 +147,40 @@
 </div>
 </div>
 
-<div id='popupArea' style='position:absolute; top:50px; left:100px; right:100px; bottom:50px; background-color:white; border:1px solid black; padding:50px; display:none;z-index:2000; overflow: auto;'>
-<img id='popupClose' src='images/close.png ' width=20 align='right' style='position:absolute; right:10px; top:10px;' onClick='document.getElementById('popupArea').style.display = 'none''>
-<div id ='popupContent' style='' >
-</div>
+<div id='popupArea' class='popup-about hide' style='position:absolute; top:50px; left:100px; right:100px; bottom:50px; background-color:white; border:1px solid black; padding:50px; z-index:2000; overflow: auto;'>
+	<img id='popupClose' src='images/close.png ' width=20 align='right' style='position:absolute; right:10px; top:10px;' onclick='playerOnAbout()' >
+	<div>
+		<h2>О проекте "Точка сборки 3D"</h2>
+		<p>
+		Проект "Точка сборки" позволяет делать объемные иллюстрации для различных областей научного знания:
+		<ul>
+		<li>3D-моделирование
+		<li>Черчение, начертательная геометрия
+		<li>Математика, геометрия, стереометрия, физика
+		<li>Молекулярная химия и биоинженерия
+		<li> 3D-графики, визуализация данных, BI-презентации
+		<li>Разработка в области VR и AR
+		</ul>
+		</p>
+		<p>
+		Проект может использоваться как демонстрациолнный материал в традиционных и дистанционных обучающих курсах, при
+		начальном обучении программированию, при создании демо-зон в средних и высших учебных заведениях, на кафедрах графики, математики, физики, химии.
+		</p>
+		<h2>Поддержка 3D-телевизоров и 3D-проекторов и Перекрестного взгляда</h2>
+		<p>
+		Созданные иллюстрации можно демонстрировать на 3D-телевизорах и 3D проекторов в стереорежиме без каких либо дополнительных драйверов и настроек.
+		Перейдите в стерео-режим с помощью кнопки 3D в области иллюстрации. Одно нажатие - режим <b>перекресного взгляда</b>. Второе нажатие - <b>режим 3D-TV SideBySide</b>. 
+		Для получения нормального результата нужно также перейти в <b>полноэкранный режим</b> (крайняя правая кнопка)
+		</p>
+		<h2>Контакты</h2>
+		<p>
+		Сайт проекта "Точка сборки" со всеми презентациями 
+		<a href="https://headfire.github.io/zpoint/">https://headfire.github.io/zpoint/</a>.
+		</p>
+		<p>
+		По всем предложениям пишите <a href="mailto:headfire@yandex.ru">headfire@yandex.ru</a>.
+		</p>
+	</div>
 </div>
 
 <script type='text/javascript' src='js/three/three.min.js'></script>
