@@ -2,9 +2,7 @@
 
 ## Загрузка без параметров - Внешний вид
 
-Открыть страницу
-[ Плеер без параметров ]( http://zpoint.localhost/zpleer/index.html )
-[ Локально ]( https://headfire.github.io/zpoint/zpleer/index.html )
+[ Плеер без параметров ]( http://zpoint.localhost/zpleer/index.html ) - [ Локально ]( https://headfire.github.io/zpoint/zpleer/index.html )
 
 Общее расположение
 - На закладке - голубой фавикон и надпись "Точка сборки 3D" (без тире)
@@ -41,8 +39,7 @@
 
 ## Загрузка без параметров - Базовые реакции
 
-[ Плеер без параметров ]( http://zpoint.localhost/zpleer/index.html )
-[ Локально ]( https://headfire.github.io/zpoint/zpleer/index.html )
+[ Плеер без параметров ]( http://zpoint.localhost/zpleer/index.html ) - [ Локально ]( https://headfire.github.io/zpoint/zpleer/index.html )
 
 Мышь на основном поле
 - Тащить левой клавишей - поворот сцены вокруг центра (камера двигается без наклона)
@@ -51,46 +48,31 @@
 
 Все иконки при наведении делаются ярче и всплывает подсказка
 
-## Параметр border
+## Параметр margin
 
-- [ No border param ]( https://headfire.github.io/zpoint/zpleer/index.html )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html )
-
-- [ border=on ]( https://headfire.github.io/zpoint/zpleer/index.html?border=on )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html?border=on )
-
-- [ border=off ]( https://headfire.github.io/zpoint/zpleer/index.html?border=off )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html?border=off )
-
+[ margin default ]( https://headfire.github.io/zpoint/zpleer/index.html ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html )
+[ margin=off ]( https://headfire.github.io/zpoint/zpleer/index.html?margin=off ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?margin=off )
+[ margin=on ]( https://headfire.github.io/zpoint/zpleer/index.html?margin=on ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?margin=on )
 
 ## Загрузка примеров Дао
 
 Построение фигуры Дао в объеме:
-- [ Слайд 01 Контур классического Дао ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_01_DaoClassic )
-- [ Локально ]( http://zpoint.localhost/zpleer/zpleer/index.html?paper=dao&slide=slide_01_DaoClassic )
-- [ Слайд 02 Контур Дао с отступом ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_02_DaoConcept )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_02_DaoConcept )
-- [ Слайд 03 Принцип построения сечений ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_03_DaoSecPrincipe )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_03_DaoSecPrincipe )
-- [ Слайд 04 Форма Дао из сечений ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_04_DaoManySec )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_04_DaoManySec )
-- [ Слайд 05 Протягивание поверхности через сечения ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_05_DaoSkinning )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_05_DaoSkinning )
-- [ Слайд 06 Окончательная форма Дао ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_06_DaoComplete )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_06_DaoComplete )
-- [ Слайд 07 Форма Дао с основанием ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_07_DaoWithCase )
-- [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_07_DaoWithCase )
+- [ Слайд 01 Контур классического Дао ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_01_DaoClassic ) - [ Локально ]( http://zpoint.localhost/zpleer/zpleer/index.html?paper=dao&slide=slide_01_DaoClassic )
+- [ Слайд 02 Контур Дао с отступом ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_02_DaoConcept ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_02_DaoConcept )
+- [ Слайд 03 Принцип построения сечений ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_03_DaoSecPrincipe ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_03_DaoSecPrincipe )
+- [ Слайд 04 Форма Дао из сечений ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_04_DaoManySec ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_04_DaoManySec )
+- [ Слайд 05 Протягивание поверхности через сечения ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_05_DaoSkinning ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_05_DaoSkinning )
+- [ Слайд 06 Окончательная форма Дао ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_06_DaoComplete ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_06_DaoComplete )
+- [ Слайд 07 Форма Дао с основанием ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_07_DaoWithCase ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_07_DaoWithCase )
 
 STL файлы Дао 
-- [ Инь ]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_001_shape.stl )
-- [ Локально ]( http://zpoint.localhost/zpleer/slides/dao/slide_07_DaoWithCase/exp_001_shape.stl )
-- [ Янь ]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_002_shape.stl )
-- [ Локлаьно ]( http://zpoint.localhost/zpleer/slides/dao/slide_07_DaoWithCase/exp_002_shape.stl )
-- [ Основание ]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_003_shape.stl )
-- [ Локально ]( http://zpoint.localhost/zpleer/slides/dao/slide_07_DaoWithCase/exp_003_shape.stl )
+- [ Инь ]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_001_shape.stl ) - [ Локально ]( http://zpoint.localhost/zpleer/slides/dao/slide_07_DaoWithCase/exp_001_shape.stl )
+- [ Янь ]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_002_shape.stl ) - [ Локлаьно ]( http://zpoint.localhost/zpleer/slides/dao/slide_07_DaoWithCase/exp_002_shape.stl )
+- [ Основание ]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_003_shape.stl ) - [ Локально ]( http://zpoint.localhost/zpleer/slides/dao/slide_07_DaoWithCase/exp_003_shape.stl )
 
 ## Загрузка обучающих примеров 
 
+pass
 
 
 
