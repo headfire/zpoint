@@ -50,9 +50,9 @@
 
 ## Параметр margin
 
-[ margin default ]( https://headfire.github.io/zpoint/zpleer/index.html ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html )
-[ margin=off ]( https://headfire.github.io/zpoint/zpleer/index.html?margin=off ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?margin=off )
-[ margin=on ]( https://headfire.github.io/zpoint/zpleer/index.html?margin=on ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?margin=on )
+- [ margin default ]( https://headfire.github.io/zpoint/zpleer/index.html ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html )
+- [ margin=off ]( https://headfire.github.io/zpoint/zpleer/index.html?margin=off ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?margin=off )
+- [ margin=on ]( https://headfire.github.io/zpoint/zpleer/index.html?margin=on ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?margin=on )
 
 ## Загрузка примеров Дао
 
