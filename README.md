@@ -34,18 +34,18 @@
 ## Примеры презентаций
 
 Для примера посмотрите слайды про построение фигуры Дао в объеме:
-- [Слайд 01 Контур классического Дао]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_01_DaoClassic)
-- [Слайд 02 Контур Дао с отступом ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_02_DaoConcept)
-- [Слайд 03 Принцип построения сечений ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_03_DaoSecPrincipe)
-- [Слайд 04 Форма Дао из сечений ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_04_DaoManySec)
-- [Слайд 05 Протягивание поверхности через сечения ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_05_DaoSkinning)
-- [Слайд 06 Окончательная форма Дао ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_06_DaoComplete)
-- [Слайд 07 Форма Дао с основанием ]( https://headfire.github.io/zpoint/viewer/index.html?paper=dao&slide=slide_07_DaoWithCase)
+- [Слайд 01 Контур классического Дао]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_01_DaoClassic)
+- [Слайд 02 Контур Дао с отступом ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_02_DaoConcept)
+- [Слайд 03 Принцип построения сечений ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_03_DaoSecPrincipe)
+- [Слайд 04 Форма Дао из сечений ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_04_DaoManySec)
+- [Слайд 05 Протягивание поверхности через сечения ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_05_DaoSkinning)
+- [Слайд 06 Окончательная форма Дао ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_06_DaoComplete)
+- [Слайд 07 Форма Дао с основанием ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_07_DaoWithCase)
 
 STL файлы Дао 
-- [Инь]( https://headfire.github.io/zpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_001_shape.stl)
-- [Янь]( https://headfire.github.io/zpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_002_shape.stl)
-- [Основание]( https://headfire.github.io/zpoint/viewer/slides/dao/slide_07_DaoWithCase/exp_003_shape.stl)
+- [Инь]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_001_shape.stl)
+- [Янь]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_002_shape.stl)
+- [Основание]( https://headfire.github.io/zpoint/zpleer/slides/dao/slide_07_DaoWithCase/exp_003_shape.stl)
 
 Не перепутайте Инь и Янь :) (отличий нет, но мало ли чего)
 
@@ -60,7 +60,8 @@ STL файлы Дао
 
 ## Узнать больше
 
-[Установка среды разработки OpenCascade - Python 3.7 - Win64](https://headfire.github.io/zpoint/docs/00_00_setup) 
+[Установка среды разработки OpenCascade - Python 3.7 - Win64]( https://headfire.github.io/zpoint/docs/setup ) 
+[Методика тестирования]( https://headfire.github.io/zpoint/docs/testing ) 
 
 <!--
 [Библиотка Scene - базовая система команд](docs/00_01_scene.md)
