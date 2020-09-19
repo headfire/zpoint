@@ -150,6 +150,7 @@ function mainLoadSlideInfo(paper, slide) {
        if (xmlhttp.status == 200) {
 	       var slideInfo = JSON.parse(xmlhttp.responseText);
 		   mainSetHtmlByClass('slide-title', slideInfo.slideName)
+		   mainSetHtmlByClass('html-title', 'Точка сборки 3D | ' + slideInfo.slideName)
 	    }
 	 }
   };

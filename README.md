@@ -73,3 +73,9 @@ STL файлы Дао
 [ Как построить линию пересечения профилей ]( https://headfire.github.io/zpoint/docs/questions/00_01_profile ) 
 
 ## Бонус: Рассказы о программистах
+
+## Благодарности
+
+https://github.com/google/material-design-icons
+
+

@@ -2,7 +2,7 @@
 
 ## Загрузка без параметров - Внешний вид
 
-[ Плеер без параметров ]( http://zpoint.localhost/zpleer/index.html ) - [ Локально ]( https://headfire.github.io/zpoint/zpleer/index.html )
+[ Плеер без параметров ]( https://headfire.github.io/zpoint/zpleer/index.html ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html  )
 
 Общее расположение
 - На закладке - голубой фавикон и надпись "Точка сборки 3D" (без тире)
@@ -21,6 +21,7 @@
 - Знак вопроса (О проекте)  (цвет серый)
 
 Слева внизу
+- Круговая стрелка (Авторотация) (нет)
 - Стрелка вправо (Воспроизвести) (нет)
 - Квадрат (Остановится) (нет)
 
@@ -67,6 +68,7 @@
 ## Загрузка примеров Дао
 
 Заголовок слайда должен отображаться серым цветом по центру верхней служебной полосы
+Во вкладке браузера должно быть Точка сборки 3D | Название слайда
 
 Построение фигуры Дао в объеме:
 - [ Слайд 01 Контур классического Дао ]( https://headfire.github.io/zpoint/zpleer/index.html?paper=dao&slide=slide_01_DaoClassic ) - [ Локально ]( http://zpoint.localhost/zpleer/index.html?paper=dao&slide=slide_01_DaoClassic )
