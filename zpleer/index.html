@@ -5,17 +5,16 @@
     <title class='html-title'>Точка сборки 3D</title>
     <link rel='shortcut icon' href='images/favicon.png' />
     <link href='js/styles.css' rel='stylesheet' type='text/css' />
-    <link href='js/zviewer.css' rel='stylesheet' type='text/css' />
+    <link href='js/player.css' rel='stylesheet' type='text/css' />
 </head>
 <body>
 
 <div class='drawarea drawarea-nomargin'>
-<div id='drawZone' class='mono-mode text-on play-off' >
-
-<div id='webgl'>
-</div>
-       <div class='upcontrols'>
-	      <div class='upcontrols-main'>
+	<div id='drawZone' class='mono-mode text-on play-off' >
+		<div id='webgl'>
+		</div>
+        <div class='upcontrols'>
+ 	      <div class='upcontrols-main'>
 				<div  class='upcontrols-left'>
 		          <div>
 						<svg height="30px"  viewBox="43 24 68 58" >
@@ -56,12 +55,12 @@
 			</div>
 			<div class='controls-main'>
 				<div class='controls-left'>
-					<div title='Вперед' class='btn-play hide'>
+					<div title='Вперед' class='btn-play gray'>
 						<svg class='icon' viewBox='0 0 48 48'>
 							<path d='M16 10v28l22-14z'/>
 						</svg>
 					</div>
-				    <div title='Стоп' class='btn-stop hide'>
+				    <div title='Стоп' class='btn-stop gray'>
 				        <svg class='icon' viewBox="0 0 48 48">
                              <path d="M12 12h24v24H12z"/>
                         </svg>
@@ -110,44 +109,44 @@
     </div>
 
 
-<div class='mono-layout full'>
-<div id='mono-toolbar' class='toolbar' >
-<table><tr><td>
-<a href='#' title='Доску на место' onClick='mainOnHome()';>
-  <img src='images/black/home.png' />
-  </a>
-</td><td>
-<a href='#' title='3D-режимы' onClick='mainOnMode();'>
-  <img src='images/3d.png'  />
-</a>
-</td><td>
-<a href='#' title='Полный экран' onClick='mainOnFullScreen();'>
-  <img src='images/black/fullscreen.png'  />
-</a>
-</td></tr></table>
-</div>
-<div id='mono-info' class='info'>
-</div>
-</div>
+    <div class='mono-layout full'>
 
-<div class='left-layout half'>
-<div id='left-toolbar' class='toolbar' >
-</div>
-<div id='left-info' class='info'>
-</div>
-</div>
+		<div id='mono-toolbar' class='toolbar' >
+			<table><tr><td>
+			<a href='#' title='Доску на место' onClick='mainOnHome()';>
+			  <img src='images/black/home.png' />
+			  </a>
+			</td><td>
+			<a href='#' title='3D-режимы' onClick='mainOnMode();'>
+			  <img src='images/3d.png'  />
+			</a>
+			</td><td>
+			<a href='#' title='Полный экран' onClick='mainOnFullScreen();'>
+			  <img src='images/black/fullscreen.png'  />
+			</a>
+			</td></tr></table>
+		</div>
+		<div id='mono-info' class='info'>
+		</div>
+	 </div>
+	 
+	 <div class='left-layout half'>
+			<div id='left-toolbar' class='toolbar' >
+			</div>
+			<div id='left-info' class='info'>
+			</div>
+	 </div>
 
-<div class='right-layout half'>
-<div id='right-toolbar' class='toolbar' >
-</div>
-<div id='right-info' class='info'>
-</div>
-</div>
+     <div class='right-layout half'>
+	 	<div id='right-toolbar' class='toolbar' >
+		</div>
+		<div id='right-info' class='info'>
+		</div>
+     </div>
 
-</div>
-</div>
+   </div>
 
-<div id='popupArea' class='popup-about hide' style='position:absolute; top:50px; left:100px; right:100px; bottom:50px; background-color:white; border:1px solid black; padding:50px; z-index:2000; overflow: auto;'>
+   <div class='popup-about hide'>
 	<img id='popupClose' src='images/close.png ' width=20 align='right' style='position:absolute; right:10px; top:10px;' onclick='playerOnAbout()' >
 	<div>
 		<h2>О проекте "Точка сборки 3D"</h2>
@@ -183,6 +182,11 @@
 	</div>
 </div>
 
+
+
+</div>
+
+
 <script type='text/javascript' src='js/three/three.min.js'></script>
 <!-- <script type='text/javascript' src='js/three/three.js'></script> -->
 <script type='text/javascript' src='js/three/Detector.js'></script>
@@ -191,8 +195,8 @@
 <script type='text/javascript' src='js/three/CSS2DRenderer.js'></script>
 <script type='text/javascript' src='js/three/StereoEffect.js'></script>
 <script type='text/javascript' src='js/zdesk.js'></script>
-<script type='text/javascript' src='js/main.js'></script>
 <script type='text/javascript' src='js/zviewer.js'></script>
+<script type='text/javascript' src='js/player.js'></script>
 <script>
 
   // START SYSTEM

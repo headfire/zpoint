@@ -4,7 +4,7 @@ var mainModeFlag = 'mono-mode';
 var mainInfoFlag = 'info-on';
 var mainErrorMessage = '';
 
-var playerAboutIsHide
+var playerAboutIsHide = true;
 
 function playerOnAbout() {
   if (playerAboutIsHide)	{

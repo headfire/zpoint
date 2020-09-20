@@ -1,4 +1,25 @@
 
+.popup-about {
+position:absolute; 
+top:80px; 
+left:80px; 
+right:80px; 
+bottom:80px; 
+background-color:#333333;
+color:#BBBBBB; 
+border:2px solid black; 
+border-radius: 10px;
+padding:50px; 
+z-index:2000; 
+overflow: auto;
+opacity: 0.7;
+font-size: 16px;
+}
+
+.popup-about a {
+color: white;	
+}
+
 .hide {
  display:none
 }
