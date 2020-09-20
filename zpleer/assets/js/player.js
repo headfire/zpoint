@@ -115,29 +115,10 @@ function mainSlideGetParamDefault() {
 function mainSlideMakeDefault() {
 }
  
-function mainLoadSlide(paper, slide) {
-   var filename = 'slides' + '/' + paper + '/' + slide + '/' + 'slide.js?time='+ new Date().getTime();;
-   var slideGetParam = mainSlideGetParamDefault;
-   var slideMake = mainSlideMakeDefault;
-   var xmlhttp = new XMLHttpRequest();
-   xmlhttp.open('GET', filename, true);
-   xmlhttp.onreadystatechange = function() {
-     if (xmlhttp.readyState == 4) {
-       if (xmlhttp.status == 200) {
-		 try {
-           eval(xmlhttp.responseText);
-	       slideGetParam = loadedSlideGetParam;
-           slideMake = loadedSlideMake;
- 		 } catch(e) { console.log(e); }
-        }
-     param = slideGetParam() 
-     zdeskInit(document.getElementById( 'webgl' ),'images/textures/', param);
-	 slideMake('slides'+'/'+paper+'/'+slide+'/');
-     mainOnAnimationFrame()
-   	 zdeskSetRenderMode('mono-mode');  				
-	  }
-  };
- xmlhttp.send(null); 
+ 
+function playerLoadSlide(paper, slide) {
+  webgl = document.getElementById( 'webgl' )
+  zdeskLoadSlide(webgl, 'assets/img/textures/', 'slides'+'/' + paper + '/' + slide +'/')
 }
 
 function mainLoadSlideInfo(paper, slide) {

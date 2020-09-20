@@ -3,9 +3,9 @@
 <head>
     <meta charset='UTF-8' />
     <title class='html-title'>Точка сборки 3D</title>
-    <link rel='shortcut icon' href='images/favicon.png' />
-    <link href='js/styles.css' rel='stylesheet' type='text/css' />
-    <link href='js/player.css' rel='stylesheet' type='text/css' />
+    <link rel='shortcut icon' href='assets/images/favicon.png' />
+    <link href='assets/css/styles.css' rel='stylesheet' type='text/css' />
+    <link href='assets/css/player.css' rel='stylesheet' type='text/css' />
 </head>
 <body>
 
@@ -23,11 +23,11 @@
 						</svg>
                   </div>
 				  <div>
-				    <span style="color:#0ebcf7; margin:20px; font-size:25px;">Точка сборки 3D</span> 
+				    <span class="brand-title" >Точка сборки 3D</span> 
 				  </div>
 				</div>
 				<div class='upcontrols-center'>
-					<span class='slide-title' style="color:gray; margin:20px; font-size:25px;">Система создания 3D стерео презентаций</span>
+					<span class='slide-title' >Система создания 3D стерео презентаций</span>
 				</div>
 				<div  class='upcontrols-right'>
 				    <div title='Поделится' class='btn-share hide'>
@@ -114,15 +114,15 @@
 		<div id='mono-toolbar' class='toolbar' >
 			<table><tr><td>
 			<a href='#' title='Доску на место' onClick='mainOnHome()';>
-			  <img src='images/black/home.png' />
+			  <img src='assets/img/black/home.png' />
 			  </a>
 			</td><td>
 			<a href='#' title='3D-режимы' onClick='mainOnMode();'>
-			  <img src='images/3d.png'  />
+			  <img src='assets/img/3d.png'  />
 			</a>
 			</td><td>
 			<a href='#' title='Полный экран' onClick='mainOnFullScreen();'>
-			  <img src='images/black/fullscreen.png'  />
+			  <img src='assets/img/black/fullscreen.png'  />
 			</a>
 			</td></tr></table>
 		</div>
@@ -147,7 +147,7 @@
    </div>
 
    <div class='popup-about hide'>
-	<img id='popupClose' src='images/close.png ' width=20 align='right' style='position:absolute; right:10px; top:10px;' onclick='playerOnAbout()' >
+	<img id='popupClose' src='assets/img/close.png ' width=20 align='right' style='position:absolute; right:10px; top:10px;' onclick='playerOnAbout()' >
 	<div>
 		<h2>О проекте "Точка сборки 3D"</h2>
 		<p>
@@ -187,16 +187,16 @@
 </div>
 
 
-<script type='text/javascript' src='js/three/three.min.js'></script>
-<!-- <script type='text/javascript' src='js/three/three.js'></script> -->
-<script type='text/javascript' src='js/three/Detector.js'></script>
-<!-- <script type='text/javascript' src='js/three/TrackballControls.js'></script> -->
-<script type='text/javascript' src='js/three/OrbitControls.js'></script>
-<script type='text/javascript' src='js/three/CSS2DRenderer.js'></script>
-<script type='text/javascript' src='js/three/StereoEffect.js'></script>
-<script type='text/javascript' src='js/zdesk.js'></script>
-<script type='text/javascript' src='js/zviewer.js'></script>
-<script type='text/javascript' src='js/player.js'></script>
+<script type='text/javascript' src='assets/js/three/three.min.js'></script>
+<!-- <script type='text/javascript' src='assets/js/three/three.js'></script> -->
+<script type='text/javascript' src='assets/js/three/Detector.js'></script>
+<!-- <script type='text/javascript' src='assets/js/three/TrackballControls.js'></script> -->
+<script type='text/javascript' src='assets/js/three/OrbitControls.js'></script>
+<script type='text/javascript' src='assets/js/three/CSS2DRenderer.js'></script>
+<script type='text/javascript' src='assets/js/three/StereoEffect.js'></script>
+<script type='text/javascript' src='assets/js/zdesk.js'></script>
+<script type='text/javascript' src='assets/js/zviewer.js'></script>
+<script type='text/javascript' src='assets/js/player.js'></script>
 <script>
 
   // START SYSTEM
@@ -206,14 +206,14 @@
   const queryString = window.location.search;
   console.log(queryString);
   const urlParams = new URLSearchParams(queryString);
-  paper = 'examples'
-  slide = 'start'
+  paper = 'nopaper'
+  slide = 'noslide'
   if (urlParams.has('paper'))
      paper = urlParams.get('paper')
   if (urlParams.has('slide'))
 	 slide = urlParams.get('slide')
 	 
-  mainLoadSlide(paper, slide);
+  playerLoadSlide(paper, slide);
   mainLoadSlideInfo(paper, slide);
   window.addEventListener( 'resize', mainOnWindowResize , false );
   

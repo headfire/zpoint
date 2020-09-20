@@ -29,6 +29,35 @@ var zdeskVisibleEndFrame;
 var zdeskObjects = Array();
 var zdeskMessages = Array();
 
+function zdeskLoadSlide(domElement, pathToTextures, pathToSlide) {
+   var filename = pathToSlide + '/' + 'slide.js?time='+ new Date().getTime();;
+   var slideGetParam = mainSlideGetParamDefault;
+   var slideMake = mainSlideMakeDefault;
+   var xmlhttp = new XMLHttpRequest();
+   xmlhttp.open('GET', filename, true);
+   xmlhttp.onreadystatechange = function() {
+     if (xmlhttp.readyState == 4) {
+       if (xmlhttp.status == 200) {
+		 try {
+           eval(xmlhttp.responseText);
+	       slideGetParam = loadedSlideGetParam;
+           slideMake = loadedSlideMake;
+ 		 } catch(e) { console.log(e); }
+        }
+     param = slideGetParam() 
+     zdeskInit(document.getElementById( 'webgl' ),'assets/img/textures/', param);
+	 slideMake('slides'+'/'+paper+'/'+slide+'/');
+     mainOnAnimationFrame()
+   	 zdeskSetRenderMode('mono-mode');  				
+	  }
+  };
+ xmlhttp.send(null); 
+
+	
+}
+
+
+
 function zdeskXLabel(x,y,z, txt, color) {
 	
     var r = Math.floor( color / (256*256) ) % 256;

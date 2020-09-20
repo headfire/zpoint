@@ -59,6 +59,20 @@ html {
 	color: var(--main);
 }
 
+.brand-title {
+  white-space:nowrap;
+  color:#0ebcf7; 
+  margin:20px; 
+  font-size:25px;  
+}
+
+.slide-title {
+  white-space:nowrap;
+  color:gray; 
+  margin:20px; 
+  font-size:25px;  
+}
+
 .icon {
   width:48px;
   height:30px;  
@@ -182,8 +196,8 @@ html {
 
 .upcontrols-center {
 	align-items: center;
-	display: flex;
-    justify-content: space-between;
+	display: flex; 
+    justify-content: space-between; 
 }
 
 .controls-left,
@@ -198,7 +212,7 @@ html {
 }
 .controls-right {
 	margin-right: 10px;
-	justify-content: flex-end;
+	justify-content: flex-end; 
 }
 
 .upcontrols-left,
@@ -207,11 +221,12 @@ html {
 	display: flex;
 	align-items: center;
 	overflow: hidden;
+	min-width:100px;
 }
 .upcontrols-left {
 	margin-left: 10px;
 }
 .upcontrols-right {
 	margin-right: 10px;
-	justify-content: flex-end;
+	justify-content: flex-end; 
 }
