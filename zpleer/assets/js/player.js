@@ -5,6 +5,21 @@ var mainInfoFlag = 'info-on';
 var mainErrorMessage = '';
 
 var playerAboutIsHide = true;
+var playerIsAutohide = false;
+
+function playerOnAutohide() {
+  if (playerIsAutohide)	{
+     playerSetStyle('btn-autohide', 'gray')
+     playerSetStyle('controls', '')
+     playerSetStyle('upcontrols', '')
+	 playerIsAutohide = false
+  } else {
+     playerSetStyle('btn-autohide', 'blue')
+     playerSetStyle('controls', 'autohide')
+     playerSetStyle('upcontrols', 'autohide')
+	 playerIsAutohide = true
+  }	 
+}
 
 function playerOnAbout() {
   if (playerAboutIsHide)	{
