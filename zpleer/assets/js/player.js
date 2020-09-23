@@ -1,10 +1,13 @@
-
-var mainModeFlag = 'mono-mode';
-var mainInfoFlag = 'info-on';
 var mainErrorMessage = '';
 
 var playerAbout = 'hide';
 var playerAutohide = 'off';
+var playerRender = 'mono';
+
+function playerInit() {
+  mainCloneToolbar();
+  playerSetInfo();
+}
 
 function playerOnPlay() {
 	
@@ -26,14 +29,25 @@ function playerOnStepBackward() {
 function playerOnCamera() {
    zdeskHome();
 }
-	
 
 function playerOnDecor() {
 	
 }
 
-function playerOnStereo() {
-	
+function playerOnRender() {
+  if (playerRender == 'mono')	{
+ 	 playerRender = 'cross-eye'; 
+     playerSetStyle('btn-render', 'blue');
+  } else if (playerRender == 'cross-eye') {
+     playerRender = 'side-by-side';
+     playerSetStyle('btn-render', 'red');
+  } else if (playerRender == 'side-by-side') {
+	 playerRender = 'mono'; 
+     playerSetStyle('btn-render', 'gray');
+  }	 
+  zdeskSetRenderMode(playerRender)   
+  playerSetStyle('drawzone',playerRender)
+  playerSetInfo();
 }
 
 function playerOnFullscreen() { 
@@ -42,25 +56,25 @@ function playerOnFullscreen() {
 
 function playerOnAutohide() {
   if (playerAutohide == 'off')	{
-    playerSetStyle('btn-autohide', 'blue')
-    playerSetStyle('controls-top', 'autohide-on')
-    playerSetStyle('controls-bottom', 'autohide-on')
-    playerAutohide = 'on'
-  } else {
-    playerSetStyle('btn-autohide', 'gray')
-    playerSetStyle('controls-top', 'autohide-off')
-    playerSetStyle('controls-bottom', 'autohide-off')
-    playerAutohide = 'off'
+    playerAutohide = 'on';
+    playerSetStyle('btn-autohide', 'blue');
+    playerSetStyle('controls-top', 'autohide-on');
+    playerSetStyle('controls-bottom', 'autohide-on');
+  } else if (playerAutohide == 'on') {
+    playerAutohide = 'off';
+    playerSetStyle('btn-autohide', 'gray');
+    playerSetStyle('controls-top', 'autohide-off');
+    playerSetStyle('controls-bottom', 'autohide-off');
   }	 
 }
 
 function playerOnAbout() {
   if (playerAbout == 'hide')	{
-     playerSetStyle('popup-about', 'show')
 	 playerAbout = 'show'
-  } else {
-     playerSetStyle('popup-about', 'hide')
+     playerSetStyle('popup-about', 'show')
+  } else  if (playerAbout == 'show') {
 	 playerAbout = 'hide'
+     playerSetStyle('popup-about', 'hide')
   }	 
 }
 
@@ -80,20 +94,19 @@ var i;
   }
 }
 
-function mainSetInfo() {
-   var mode = '';
-   if (mainModeFlag == 'cross-eye-mode') {
-      mode = '3D Перекрестный взгляд';
+function playerSetInfo() {
+   var render = '';
+   if (playerRender == 'cross-eye') {
+      render = '3D Перекрестный взгляд';
       }
-   if (mainModeFlag == 'stereo-tv-mode') {
-      mode = '3D TV SideBySyde';
+   if (playerRender == 'side-by-side') {
+      render = '3D TV SideBySyde';
       }
    var info = '';
    if (mainErrorMessage !== '') {
      info += "<font color='red'>" + mainErrorMessage +"</font>";
-	 } 
-	else { 
-      info += "<font color='blue'>"+mode+"</font> ";
+   } else { 
+      info += "<font color='blue'>"+render+"</font> ";
 	  info += "Мышь: Левая: ОСМОТР, Средняя: ПРИБЛИЖЕНИЕ, Правая: СМЕЩЕНИЕ " 
 	  info += zdeskGetMessages(); 
    }
@@ -128,41 +141,6 @@ document.webkitCancelFullScreen();
 }
 }
 
-// FLAGS
-function mainNextFlag(flag) {
-
-if (flag == 'mono-mode') 
-    return  'cross-eye-mode';
-if (flag == 'cross-eye-mode') 
-    return  'stereo-tv-mode';
-if (flag == 'stereo-tv-mode') 
-    return  'mono-mode';
-	
-if (flag == 'info-on') 
-   return 'info-off'
-if (flag == 'info-off') 
-   return 'info-on'
-}
-
-function mainSetFlags() {
-  document.getElementById('drawZone').className = mainModeFlag + ' ' + mainInfoFlag;  
-}
-
-function mainSlideGetParamDefault() {
-   var param = Object();
-   param.isDesk = true; 	 
-   param.isAxis = true; 	 
-   param.scaleA = 1; 	 
-   param.scaleB = 1; 	 
-   param.deskDX = 0; 	 
-   param.deskDY = 0; 	 
-   param.deskDZ = -50;
- return param;
- }  
-
-function mainSlideMakeDefault() {
-}
- 
  
 function playerLoadSlide(paper, slide) {
   webgl = document.getElementById( 'webgl' )
@@ -186,22 +164,10 @@ function mainLoadSlideInfo(paper, slide) {
  xmlhttp.send(null); 
 }
 
-function mainOnInfo() {
-  mainInfoFlag = mainNextFlag(mainInfoFlag);
-  mainSetFlags();
- }
-
 
 function mainOnFullScreen() {
   launchFullScreen(document.getElementById( 'drawZone' ));
 }
-
-function mainOnMode() {
-   mainModeFlag = mainNextFlag(mainModeFlag);
-   mainSetFlags();
-   mainSetInfo();
-   zdeskSetRenderMode(mainModeFlag);
- }
 
 function mainOnWindowResize() {
   zdeskHandleResize();

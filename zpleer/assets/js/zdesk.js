@@ -8,7 +8,7 @@ var zdeskCurrentCoord;
 
 var zdeskSlidePath;
 
-var zdeskRenderMode = 'mono-mode';
+var zdeskRenderMode = 'mono';
 var zdeskFrameNumber = 1;
 var zdeskFrameCount = 1;
 
@@ -29,10 +29,26 @@ var zdeskVisibleEndFrame;
 var zdeskObjects = Array();
 var zdeskMessages = Array();
 
+
+function zdeskSlideGetParamDefault() {
+   var param = Object();
+   param.isDesk = true; 	 
+   param.isAxis = true; 	 
+   param.scaleA = 1; 	 
+   param.scaleB = 1; 	 
+   param.deskDX = 0; 	 
+   param.deskDY = 0; 	 
+   param.deskDZ = -50;
+ return param;
+ }  
+
+function zdeskSlideMakeDefault() {
+}
+
 function zdeskLoadSlide(domElement, pathToTextures, pathToSlide) {
    var filename = pathToSlide + '/' + 'slide.js?time='+ new Date().getTime();;
-   var slideGetParam = mainSlideGetParamDefault;
-   var slideMake = mainSlideMakeDefault;
+   var slideGetParam = zdeskSlideGetParamDefault;
+   var slideMake = zdeskSlideMakeDefault;
    var xmlhttp = new XMLHttpRequest();
    xmlhttp.open('GET', filename, true);
    xmlhttp.onreadystatechange = function() {
@@ -48,12 +64,10 @@ function zdeskLoadSlide(domElement, pathToTextures, pathToSlide) {
      zdeskInit(document.getElementById( 'webgl' ),'assets/img/textures/', param);
 	 slideMake('slides'+'/'+paper+'/'+slide+'/');
      mainOnAnimationFrame()
-   	 zdeskSetRenderMode('mono-mode');  				
+   	 zdeskSetRenderMode('mono');  				
 	  }
   };
  xmlhttp.send(null); 
-
-	
 }
 
 
@@ -250,7 +264,7 @@ function zdeskGetMessages() {
 
 function zdeskSetRenderMode(mode) {
   zdeskRenderMode = mode;
-   if (zdeskRenderMode ==  'mono-mode') {
+   if (zdeskRenderMode ==  'mono') {
       zdeskGeometryRenderer.autoClear = true;
 	  zdeskRightLabelRenderer.domElement.style.display = 'none';
 	  }   else {	  
@@ -428,7 +442,7 @@ function zdeskInit(container, texturePath, param) {
 
 
 function zdeskHandleResize() {
-    if (zdeskRenderMode == 'mono-mode') {
+    if (zdeskRenderMode == 'mono') {
 	   zdeskCamera.aspect = (drawArea.clientWidth/ drawArea.clientHeight);
        zdeskCamera.updateProjectionMatrix();
        zdeskRightLabelRenderer.domElement.style.left = ''+drawArea.clientWidth/2+'px';
@@ -437,7 +451,7 @@ function zdeskHandleResize() {
 	   zdeskLeftLabelRenderer.domElement.style.left = '0px';
 	   zdeskLeftLabelRenderer.setSize( drawArea.clientWidth, drawArea.clientHeight );
 	  }	
-	else if (zdeskRenderMode == 'cross-eye-mode') {
+	else if (zdeskRenderMode == 'cross-eye') {
 	   zdeskCamera.aspect = (drawArea.clientWidth/ drawArea.clientHeight);
        zdeskCamera.updateProjectionMatrix();
        zdeskRightLabelRenderer.domElement.style.left = ''+drawArea.clientWidth/2+'px';
@@ -446,7 +460,7 @@ function zdeskHandleResize() {
 	   zdeskLeftLabelRenderer.setSize( drawArea.clientWidth/2, drawArea.clientHeight );
 	   zdeskStereoEffect.setSize( drawArea.clientWidth, drawArea.clientHeight );
 	  }	
-	else if (zdeskRenderMode == 'stereo-tv-mode') {
+	else if (zdeskRenderMode == 'side-by-side') {
 	   zdeskCamera.aspect = (drawArea.clientWidth/ drawArea.clientHeight) *2;
        zdeskCamera.updateProjectionMatrix();
        zdeskRightLabelRenderer.domElement.style.left = ''+drawArea.clientWidth/2+'px';
@@ -455,8 +469,7 @@ function zdeskHandleResize() {
 	   zdeskLeftLabelRenderer.setSize( drawArea.clientWidth/2, drawArea.clientHeight );
 	   zdeskStereoEffect.setSize( drawArea.clientWidth, drawArea.clientHeight );
   } 
-  //  zdeskControls.handleResize();
-	zdeskRender();
+  zdeskRender();
 }
 
 function zdeskHandleControl() {
@@ -464,14 +477,14 @@ function zdeskHandleControl() {
 }
 
 function zdeskRender() {
-    if (zdeskRenderMode == 'mono-mode') {
+    if (zdeskRenderMode == 'mono') {
 	   zdeskGeometryRenderer.render( zdeskScene, zdeskCamera );
 	   zdeskLeftLabelRenderer.render( zdeskScene, zdeskCamera );
 	  }
-	else if (zdeskRenderMode == 'cross-eye-mode') {
+	else if (zdeskRenderMode == 'cross-eye') {
 	   zdeskStereoEffect.render( zdeskScene, zdeskCamera, true);
 	  } 
-	else if (zdeskRenderMode == 'stereo-tv-mode') {
+	else if (zdeskRenderMode == 'side-by-side') {
 	   zdeskStereoEffect.render( zdeskScene, zdeskCamera, false);
 	  } 
 }
