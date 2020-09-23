@@ -1,33 +1,66 @@
 
-
 var mainModeFlag = 'mono-mode';
 var mainInfoFlag = 'info-on';
 var mainErrorMessage = '';
 
-var playerAboutIsHide = true;
-var playerIsAutohide = false;
+var playerAbout = 'hide';
+var playerAutohide = 'off';
+
+function playerOnPlay() {
+	
+}
+
+function playerOnStop() {
+	
+}
+
+function playerOnStepForward() {
+	
+}
+
+function playerOnStepBackward() {
+	
+}
+
+
+function playerOnCamera() {
+   zdeskHome();
+}
+	
+
+function playerOnDecor() {
+	
+}
+
+function playerOnStereo() {
+	
+}
+
+function playerOnFullscreen() { 
+	
+}
 
 function playerOnAutohide() {
-  if (playerIsAutohide)	{
-     playerSetStyle('btn-autohide', 'gray')
-     playerSetStyle('controls', '')
-     playerSetStyle('upcontrols', '')
-	 playerIsAutohide = false
+  if (playerAutohide == 'off')	{
+    playerSetStyle('btn-autohide', 'blue')
+    playerSetStyle('controls-top', 'autohide-on')
+    playerSetStyle('controls-bottom', 'autohide-on')
+    playerAutohide = 'on'
   } else {
-     playerSetStyle('btn-autohide', 'blue')
-     playerSetStyle('controls', 'autohide')
-     playerSetStyle('upcontrols', 'autohide')
-	 playerIsAutohide = true
+    playerSetStyle('btn-autohide', 'gray')
+    playerSetStyle('controls-top', 'autohide-off')
+    playerSetStyle('controls-bottom', 'autohide-off')
+    playerAutohide = 'off'
   }	 
 }
 
 function playerOnAbout() {
-  if (playerAboutIsHide)	{
+  if (playerAbout == 'hide')	{
      playerSetStyle('popup-about', 'show')
-	 playerAboutIsHide = false
+	 playerAbout = 'show'
   } else {
      playerSetStyle('popup-about', 'hide')
-	 playerAboutIsHide = true
+	 playerAbout = 'hide'
   }	 
 }
 
@@ -151,10 +184,6 @@ function mainLoadSlideInfo(paper, slide) {
 	 }
   };
  xmlhttp.send(null); 
-}
-
-function mainOnHome() {
-   zdeskHome();
 }
 
 function mainOnInfo() {

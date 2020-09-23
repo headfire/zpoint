@@ -312,9 +312,9 @@ function zdeskInit(container, texturePath, param) {
 
 		        drawArea = container;
 
-				zdeskCamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000 );
+				zdeskCamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000*scale );
 				zdeskCamera.up.set(0,0,1); // задает правильную систему координат ВАЖНО!!!
-		        zdeskCamera.position.set(300*scale,-400*scale,700*scale);
+		        zdeskCamera.position.set(300*scale,-600*scale,200*scale);
                 //zdeskCamera.lookAt(new THREE.Vector3( 0*scale,0*scale, -100));
 				
 				zdeskControls = new THREE.OrbitControls( zdeskCamera, drawArea );

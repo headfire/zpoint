@@ -135,18 +135,22 @@ color: white;
 	transition: all 0.1s; 
 }
 
+.autohide-off {
+  opacity: 1;
+}
 
-.autohide {
+.autohide-on {
   opacity: 0;
   transition: all 0.2s ease-in 5s;
 }
 
-.autohide:hover {
+.autohide-on:hover {
 	opacity: 1;
 	transition: all 0.2s ease-out;
 }
 
-.controls {
+
+.controls-bottom {
 	padding: 0;
 	position: absolute;
 	bottom: 0px;
@@ -156,7 +160,7 @@ color: white;
 	background: black;
 }
 
-.upcontrols {
+.controls-top {
 	padding: 0;
 	position: absolute;
 	top: 0px;
