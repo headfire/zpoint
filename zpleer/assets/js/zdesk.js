@@ -1,12 +1,21 @@
 // *******************************
 // ***** ZDESK CORE FUNCTION *****
 // *******************************
+var zdeskSlideFunc = function() {};
+ 
+var zdeskSlideName = 'Система создания 3D стерео презентаций'
+var zdeskSlideDir = 'slides';
+
+var zdeskScaleA = 1; 	 
+var zdeskScaleB = 1; 	 
+var zdeskDeskDX = 0; 	 
+var zdeskDeskDY = 0; 	 
+var zdeskDeskDZ = -50;
 
 var zdeskCamera, zdeskControls, zdeskScene, zdeskDrawing;
 var zdeskGeometryRenderer, zdeskLeftLabelRenderer, zdeskRightLabelRenderer ,zdeskStereoEffect;
 var zdeskCurrentCoord;
 
-var zdeskSlidePath;
 
 var zdeskRenderMode = 'mono';
 var zdeskFrameNumber = 1;
@@ -29,48 +38,177 @@ var zdeskVisibleEndFrame;
 var zdeskObjects = Array();
 var zdeskMessages = Array();
 
-function zdeskSlideGetParamDefault() {
-   var param = Object();
-   param.isDesk = true; 	 
-   param.isAxis = true; 	 
-   param.scaleA = 1; 	 
-   param.scaleB = 1; 	 
-   param.deskDX = 0; 	 
-   param.deskDY = 0; 	 
-   param.deskDZ = -50;
- return param;
-}  
-
-function zdeskSlideMakeDefault() {
-
+function zdeskStartEmpty(domElement, texturesDir, onReadyFunc) {
+   zdeskInit(domElement, texturesDir);
+   zdeskSetRenderMode('mono');  
+   onReadyFunc();
 }
 
-function zdeskStartEmpty(domElement, pathToTextures) {
-   zdeskInit(domElement, pathToTextures, zdeskSlideGetParamDefault, zdeskSlideMakeDefault,'');
-}
-
-function zdeskStartSlide(domElement, pathToTextures, pathToSlide ) {
-   var slideGetParam = zdeskSlideGetParamDefault;
-   var slideMake = zdeskSlideMakeDefault;
-   var filename = pathToSlide + '/slide.js?time=' + new Date().getTime();
+function zdeskStartSlide(domElement, texturesDir, slideDir, onReadyFunc) {
+   zdeskSlideDir = slideDir;
+   var filename = zdeskSlideDir + '/slide.js?time=' + new Date().getTime();
    var xmlhttp = new XMLHttpRequest();
    xmlhttp.open('GET', filename, true);
    xmlhttp.onreadystatechange = function() {
      if (xmlhttp.readyState == 4) {
        if (xmlhttp.status == 200) {
 		 try {
-           eval(xmlhttp.responseText);
-	       slideGetParam = loadedSlideGetParam;
-           slideMake = loadedSlideMake;
+           eval(' function zdeskLoadedSlideFunc() { '+ xmlhttp.responseText + ' } ');
+           zdeskSlideFunc = zdeskLoadedSlideFunc;
  		 } catch(e) { console.log(e); }
         }
-     zdeskInit(domElement, pathToTextures, slideGetParam, slideMakeDefault, pathToSlide);
+     zdeskInit(domElement, texturesDir);
+     zdeskSetRenderMode('mono');  
+     onReadyFunc();
 	  }
   };
  xmlhttp.send(null); 
 }
 
-function zdeskXLabel(x,y,z, txt, color) {
+function zdeskGetSlideName() {
+	return zdeskSlideName;
+}
+
+function zdeskInit(container, texturesDir) {
+	
+			    zdeskScene = new THREE.Scene();
+				zdeskLoader = new THREE.BufferGeometryLoader();
+
+                zdeskSlideFunc();
+   
+	            scale = zdeskScaleA/zdeskScaleB
+			
+ 			    if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+		        drawArea = container;
+				
+				zdeskCamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000*scale );
+				zdeskCamera.up.set(0,0,1); // задает правильную систему координат ВАЖНО!!!
+		        zdeskCamera.position.set(300*scale,-600*scale,200*scale);
+                //zdeskCamera.lookAt(new THREE.Vector3( 0*scale,0*scale, -100));
+				
+				zdeskControls = new THREE.OrbitControls( zdeskCamera, drawArea );
+				zdeskControls.target = new THREE.Vector3( 0*scale,0*scale, zdeskDeskDZ/2);
+				zdeskControls.rotateSpeed = 1.0;
+				zdeskControls.zoomSpeed = 1.2;
+				zdeskControls.panSpeed = 0.8;
+				zdeskControls.noZoom = false;
+				zdeskControls.noPan = false;
+				zdeskControls.staticMoving = true;
+				zdeskControls.dynamicDampingFactor = 0.3;
+				zdeskControls.keys = [ 65, 83, 68 ];
+				zdeskControls.addEventListener( 'change', zdeskRender );
+
+
+                THREE.ImageUtils.crossOrigin = '';
+				
+			    var deskGeometry = new THREE.BoxGeometry( 1500*scale, 1000*scale, 40*scale );
+		        var deskTexture = THREE.ImageUtils.loadTexture( texturesDir + '/wood.jpg', undefined, zdeskRender);
+				deskTexture.minFilter = THREE.LinearFilter;
+                var deskMaterial = new THREE.MeshBasicMaterial( {  map: deskTexture } );
+                deskMesh = new THREE.Mesh( deskGeometry, deskMaterial );
+				deskMesh.position.set(zdeskDeskDX, zdeskDeskDY, zdeskDeskDZ-22*scale); 
+				zdeskScene.add( deskMesh );
+
+		        zp.label((-1500/2 + 20)*scale + zdeskDeskDX, (1000/2 + 20)*scale + zdeskDeskDY, zdeskDeskDZ, 'A0 M'+zdeskScaleB+':'+zdeskScaleA, 0xbbbbbb);
+
+				
+				var paperGeometry = new THREE.BoxGeometry( 1189*scale, 841*scale, 2*scale);
+		        paperTexture = THREE.ImageUtils.loadTexture(texturesDir + '/paper.jpg', undefined, zdeskRender);
+				paperTexture.minFilter = THREE.LinearFilter;
+				paperTexture.wrapS = THREE.RepeatWrapping;
+                paperTexture.wrapT = THREE.RepeatWrapping;
+                paperTexture.repeat.set( 4, 4 );
+                var paperMaterial = new THREE.MeshBasicMaterial( {  map: paperTexture } );
+                paperMesh = new THREE.Mesh( paperGeometry, paperMaterial );
+				paperMesh.position.set(zdeskDeskDX, zdeskDeskDY, zdeskDeskDZ-1.9*scale); // not 2 for flat surfaces visible
+				zdeskScene.add( paperMesh );
+		
+				var cnopGeometry = new THREE.CylinderGeometry( 10*scale, 10*scale, 6*scale, 12, 1 );
+				var cnopMaterial =  new THREE.MeshLambertMaterial( { color:0x707070 } ); // shading: THREE.FlatShading
+
+                cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
+				cnopMesh.position.set(zdeskDeskDX+564*scale,zdeskDeskDY+390*scale,zdeskDeskDZ+0);
+				cnopMesh.rotation.x = Math.PI/2;
+				zdeskScene.add( cnopMesh );
+				
+                cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
+				cnopMesh.position.set(zdeskDeskDX-564*scale,zdeskDeskDX+390*scale,zdeskDeskDZ);
+				cnopMesh.rotation.x = Math.PI/2;
+				zdeskScene.add( cnopMesh );
+
+                cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
+				cnopMesh.position.set(zdeskDeskDX+564*scale,zdeskDeskDY-390*scale,zdeskDeskDZ);
+				cnopMesh.rotation.x = Math.PI/2;
+				zdeskScene.add( cnopMesh );
+
+                cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
+				cnopMesh.position.set(zdeskDeskDX-564*scale,zdeskDeskDY-390*scale,zdeskDeskDZ);
+				cnopMesh.rotation.x = Math.PI/2;
+				zdeskScene.add( cnopMesh );
+				
+				zdeskDrawing = new THREE.Group();
+				zdeskScene.add( zdeskDrawing );
+		
+				// lights
+
+				light = new THREE.DirectionalLight( 0xffffff );
+				light.position.set( -300*scale, -200*scale, 1000*scale );
+				zdeskScene.add( light );
+
+				light = new THREE.AmbientLight( 0x999999 );
+				zdeskScene.add( light );
+
+				// renderer
+				
+                zdeskGeometryRenderer = new THREE.WebGLRenderer( { antialias: true } );
+				zdeskGeometryRenderer.setClearColor(  0x999999 );
+				zdeskGeometryRenderer.setPixelRatio( window.devicePixelRatio );
+				zdeskGeometryRenderer.setSize( drawArea.clientWidth, drawArea.clientHeight );
+				zdeskGeometryRenderer.domElement.style.position = 'absolute';
+				zdeskGeometryRenderer.domElement.style.top = '0px';
+				drawArea.appendChild( zdeskGeometryRenderer.domElement );
+		
+				zdeskLeftLabelRenderer = new THREE.CSS2DRenderer('left');
+				zdeskLeftLabelRenderer.setSize( drawArea.clientWidth/2, drawArea.clientHeight );
+				zdeskLeftLabelRenderer.domElement.style.position = 'absolute';
+				zdeskLeftLabelRenderer.domElement.style.top = '0px';
+				zdeskLeftLabelRenderer.domElement.style.left = '0px';
+				zdeskLeftLabelRenderer.domElement.style.pointerEvents = 'none';
+				
+				zdeskRightLabelRenderer = new THREE.CSS2DRenderer('right');
+				zdeskRightLabelRenderer.setSize( drawArea.clientWidth/2, drawArea.clientHeight );
+				zdeskRightLabelRenderer.domElement.style.position = 'absolute';
+				zdeskRightLabelRenderer.domElement.style.top = '0px';
+				zdeskRightLabelRenderer.domElement.style.left = ''+drawArea.clientWidth/2+'px';
+				zdeskRightLabelRenderer.domElement.style.pointerEvents = 'none';
+				
+				drawArea.appendChild( zdeskLeftLabelRenderer.domElement );
+				drawArea.appendChild( zdeskRightLabelRenderer.domElement );
+				
+				zdeskStereoEffect = new THREE.zdeskStereoEffect( zdeskGeometryRenderer, zdeskLeftLabelRenderer, zdeskRightLabelRenderer, 1200*scale );
+				
+}
+
+// ********************************************
+// zpoint object interface
+// ********************************************
+
+var zp = new Object();
+
+zp.slideName = function(slideName) {
+  zdeskSlideName = 	slideName;
+}
+
+zp.setParam = function(scaleA, scaleB, deskDX, deskDY, deskDZ) {
+   zdeskScaleA = scaleA; 	 
+   zdeskScaleB = scaleB; 	 
+   zdeskDeskDX = deskDX; 	 
+   zdeskDeskDY = deskDY; 	 
+   zdeskDeskDZ = deskDZ;
+}
+
+zp.label = function (x,y,z, txt, color) {
 	
     var r = Math.floor( color / (256*256) ) % 256;
     var g = Math.floor( color / 256 ) % 256;
@@ -103,7 +241,7 @@ function zdeskXLabel(x,y,z, txt, color) {
 }
 
 
-function zdeskXPoint(x,y,z, color, size) {
+zp.point =  function(x,y,z, color, size) {
 	var sphereGeometry = new THREE.IcosahedronGeometry( size * zdeskScaleA/zdeskScaleB*2, 2 );
     var material = zdeskGetMaterial(color);
 	var mesh = new THREE.Mesh( sphereGeometry, material );
@@ -111,7 +249,7 @@ function zdeskXPoint(x,y,z, color, size) {
 	zdeskScene.add(mesh);
 }
 
-function zdeskXLine(startPlace, endPlace, pColor, pLineWidth) {
+zp.line = function (startPlace, endPlace, pColor, pLineWidth) {
     var geometry = new THREE.CylinderGeometry( 1, 1, 1 );
     var object = new THREE.Mesh( geometry, zdeskGetMaterial(pColor) );
 	object.position.copy(startPlace);
@@ -123,8 +261,9 @@ function zdeskXLine(startPlace, endPlace, pColor, pLineWidth) {
 }
 
 
-function zdeskXCurve(pJsonPath, pColor, pLineWidth) {
-	zdeskLoader.load(pJsonPath, function(geometry) {
+zp.curve = function (shapeName, pColor, pLineWidth) {
+	jsonFilename = zdeskSlideDir + '/'+ shapeName +'.json';
+	zdeskLoader.load(jsonFilename, function(geometry) {
 	arr = 	geometry.attributes.position.array
 	cnt = arr.length;
     var x0 = arr[0]; var y0 = arr[1]; var z0 = arr[2];
@@ -132,14 +271,15 @@ function zdeskXCurve(pJsonPath, pColor, pLineWidth) {
 	for (var i = 1; i<cnt/3 ;i++) {
 		x1 = x0;  y1 = y0; z1 = z0;
 	    x0 = arr[i*3];  y0 = arr[i*3+1]; z0 = arr[i*3+2];
-		zdeskXLine(new THREE.Vector3 (x0, y0, z0), new THREE.Vector3 (x1, y1, z1), pColor, pLineWidth)
+		zp.line(new THREE.Vector3 (x0, y0, z0), new THREE.Vector3 (x1, y1, z1), pColor, pLineWidth)
 	}	
 	zdeskRender();
 	});
 }
 	
-function zdeskXXCurve(pJsonPath, pColor, pLineWidth) {
-	zdeskLoader.load(pJsonPath, function(geometry) {
+zp.curveLine = function (shapeName, pColor, pLineWidth) {
+	jsonFilename = zdeskSlideDir + '/'+ shapeName +'.json';
+	zdeskLoader.load(jsonFilename, function(geometry) {
 	line_material = new THREE.LineBasicMaterial({color: pColor, linewidth: pLineWidth});
 	line = new THREE.Line(geometry, line_material);
 	zdeskScene.add(line);
@@ -147,7 +287,8 @@ function zdeskXXCurve(pJsonPath, pColor, pLineWidth) {
 	});
 }	
 
-function zdeskXShape(pJsonPath, pColor, pSpecular, pShininess, pOpacity) {
+zp.shape = function (shapeName, pColor, pSpecular, pShininess, pOpacity) {
+	jsonFilename = zdeskSlideDir + '/'+ shapeName +'.json';
     var shape_phong_material;
     if (pOpacity == 1) {
 			shape_phong_material = new THREE.MeshPhongMaterial( {
@@ -167,7 +308,7 @@ function zdeskXShape(pJsonPath, pColor, pSpecular, pShininess, pOpacity) {
 			   opacity:pOpacity
 		   });
 		 }  
-    	zdeskLoader.load(pJsonPath, function(geometry) {
+    	zdeskLoader.load(jsonFilename, function(geometry) {
 				mesh = new THREE.Mesh(geometry, shape_phong_material);
 				mesh.castShadow = true;
 				mesh.receiveShadow = true;
@@ -176,6 +317,9 @@ function zdeskXShape(pJsonPath, pColor, pSpecular, pShininess, pOpacity) {
 			});
 }			
 
+// ********************************************
+// ********************************************
+// ********************************************
 
 function zdeskGetFrameInfo() {
  return  zdeskFrameNumber + ' / ' + zdeskFrameCount;
@@ -234,32 +378,6 @@ function zdeskGetMaterial(materialColor, isDoubleSide) {
   return material;	
 }
 
-function zdeskForceColor(color) {
-
-    var r = Math.floor( color / (256*256) ) % 256;
-    var g = Math.floor( color / 256 ) % 256;
-    var b = color % 256;
-				
-	// усиливаем цвета
-	if ( r > 0x90)  r = 0xff; 
-    if ( r < 0x60)  r = 0x00; 
-	if ( g > 0x90)  g = 0xff; 
-    if ( g < 0x60)  g = 0x00; 
-	if ( b > 0x90)  b = 0xff; 
-    if ( b < 0x60)  b = 0x00; 
-				
-    return r*256*256 + g*256 + b;
-}
-
-function zdeskGetMessages() {
-  var str = ''
-  for (var i = 0; i < zdeskMessages.length; i++ )  {
-    if ((zdeskMessages[i].start <= zdeskFrameNumber) && (zdeskFrameNumber <= zdeskMessages[i].end))
-    str += '<p>'+zdeskMessages[i].text+'</p>';
-     }
-  return str;	 
-}
-
 function zdeskSetRenderMode(mode) {
   zdeskRenderMode = mode;
    if (zdeskRenderMode ==  'mono') {
@@ -269,44 +387,13 @@ function zdeskSetRenderMode(mode) {
       zdeskGeometryRenderer.autoClear = false;
       zdeskRightLabelRenderer.domElement.style.display = 'block';
    }
-   zdeskHandleResize();
+   zdeskSetRenderZoneSizes();
 }
 
 function zdeskHome() {
-   zdeskControls.reset();
+  if (zdeskControls)	
+     zdeskControls.reset();
 }
-
-function zdeskClear() {
-
-    zdeskFrameNumber = 1;
-    zdeskFrameCount = 1;
-
-	zdeskScene.remove(zdeskDrawing);
-
-	// becose remove handler don't execute for object cildren
-	zdeskLeftLabelRenderer.domElement.innerHTML=""; 
-	zdeskRightLabelRenderer.domElement.innerHTML="";
-	
-	zdeskDrawing = new THREE.Group();
-	zdeskScene.add( zdeskDrawing );
-	zdeskCurrentCoord = new THREE.Group();
-	zdeskDrawing.add( zdeskCurrentCoord );
-
-	SetPointColor(YELLOW);
-    SetLineColor(BLUE);
-    SetObjectColor(CYAN);
-    SetTriangleColor(MAGENTA);
-    SetMarkColor(GRAY);
-    SetLabelColor(RED);
-	
-	SetTransparent(NORMAL);
-	
-	SetVisible(1,1);
-	
-	zdeskObjects = Array();
-	zdeskMessages = Array();
-}
-
 
 function zdeskAdd( object ) {
    zdeskObjects.push( {start:zdeskVisibleStartFrame, end:zdeskVisibleEndFrame, object:object});
@@ -314,133 +401,9 @@ function zdeskAdd( object ) {
 }
 
 
-function zdeskInit(container, texturePath, getParamFunc, makeSlideFunc, pathToSlide) {
- 	            param = getParamFunc() 
-  
-	            zdeskScaleA = param.scaleA
-				zdeskScaleB = param.scaleB
-	            scale = zdeskScaleA/zdeskScaleB
-			
- 			    if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-
-		        drawArea = container;
-				
-				zdeskCamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000*scale );
-				zdeskCamera.up.set(0,0,1); // задает правильную систему координат ВАЖНО!!!
-		        zdeskCamera.position.set(300*scale,-600*scale,200*scale);
-                //zdeskCamera.lookAt(new THREE.Vector3( 0*scale,0*scale, -100));
-				
-				zdeskControls = new THREE.OrbitControls( zdeskCamera, drawArea );
-				zdeskControls.target = new THREE.Vector3( 0*scale,0*scale, param.deskDZ/2);
-				zdeskControls.rotateSpeed = 1.0;
-				zdeskControls.zoomSpeed = 1.2;
-				zdeskControls.panSpeed = 0.8;
-				zdeskControls.noZoom = false;
-				zdeskControls.noPan = false;
-				zdeskControls.staticMoving = true;
-				zdeskControls.dynamicDampingFactor = 0.3;
-				zdeskControls.keys = [ 65, 83, 68 ];
-				zdeskControls.addEventListener( 'change', zdeskRender );
-
-				zdeskScene = new THREE.Scene();
-				zdeskLoader = new THREE.BufferGeometryLoader();
 
 
-                THREE.ImageUtils.crossOrigin = '';
-				
-			    var deskGeometry = new THREE.BoxGeometry( 1500*scale, 1000*scale, 40*scale );
-		        var deskTexture = THREE.ImageUtils.loadTexture( texturePath + 'wood.jpg', undefined, zdeskRender);
-				deskTexture.minFilter = THREE.LinearFilter;
-                var deskMaterial = new THREE.MeshBasicMaterial( {  map: deskTexture } );
-                deskMesh = new THREE.Mesh( deskGeometry, deskMaterial );
-				deskMesh.position.set(param.deskDX, param.deskDY, param.deskDZ-22*scale); 
-				zdeskScene.add( deskMesh );
-
-		        zdeskXLabel((-1500/2 + 20)*scale + param.deskDX, (1000/2 + 20)*scale + param.deskDY, param.deskDZ, 'A0 M'+zdeskScaleB+':'+zdeskScaleA, 0xbbbbbb);
-
-				
-				var paperGeometry = new THREE.BoxGeometry( 1189*scale, 841*scale, 2*scale);
-		        paperTexture = THREE.ImageUtils.loadTexture(texturePath + 'paper.jpg', undefined, zdeskRender);
-				paperTexture.minFilter = THREE.LinearFilter;
-				paperTexture.wrapS = THREE.RepeatWrapping;
-                paperTexture.wrapT = THREE.RepeatWrapping;
-                paperTexture.repeat.set( 4, 4 );
-                var paperMaterial = new THREE.MeshBasicMaterial( {  map: paperTexture } );
-                paperMesh = new THREE.Mesh( paperGeometry, paperMaterial );
-				paperMesh.position.set(param.deskDX, param.deskDY, param.deskDZ-1.9*scale); // not 2 for flat surfaces visible
-				zdeskScene.add( paperMesh );
-		
-				var cnopGeometry = new THREE.CylinderGeometry( 10*scale, 10*scale, 6*scale, 12, 1 );
-				var cnopMaterial =  new THREE.MeshLambertMaterial( { color:0x707070 } ); // shading: THREE.FlatShading
-
-                cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
-				cnopMesh.position.set(param.deskDX+564*scale,param.deskDY+390*scale,param.deskDZ+0);
-				cnopMesh.rotation.x = Math.PI/2;
-				zdeskScene.add( cnopMesh );
-				
-                cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
-				cnopMesh.position.set(param.deskDX-564*scale,param.deskDX+390*scale,param.deskDZ);
-				cnopMesh.rotation.x = Math.PI/2;
-				zdeskScene.add( cnopMesh );
-
-                cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
-				cnopMesh.position.set(param.deskDX+564*scale,param.deskDY-390*scale,param.deskDZ);
-				cnopMesh.rotation.x = Math.PI/2;
-				zdeskScene.add( cnopMesh );
-
-                cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
-				cnopMesh.position.set(param.deskDX-564*scale,param.deskDY-390*scale,param.deskDZ);
-				cnopMesh.rotation.x = Math.PI/2;
-				zdeskScene.add( cnopMesh );
-				
-				zdeskDrawing = new THREE.Group();
-				zdeskScene.add( zdeskDrawing );
-		
-				// lights
-
-				light = new THREE.DirectionalLight( 0xffffff );
-				light.position.set( -300*scale, -200*scale, 1000*scale );
-				zdeskScene.add( light );
-
-				light = new THREE.AmbientLight( 0x999999 );
-				zdeskScene.add( light );
-
-				// renderer
-				
-                zdeskGeometryRenderer = new THREE.WebGLRenderer( { antialias: true } );
-				zdeskGeometryRenderer.setClearColor(  0x999999 );
-				zdeskGeometryRenderer.setPixelRatio( window.devicePixelRatio );
-				zdeskGeometryRenderer.setSize( drawArea.clientWidth, drawArea.clientHeight );
-				zdeskGeometryRenderer.domElement.style.position = 'absolute';
-				zdeskGeometryRenderer.domElement.style.top = '0px';
-				drawArea.appendChild( zdeskGeometryRenderer.domElement );
-		
-				zdeskLeftLabelRenderer = new THREE.CSS2DRenderer('left');
-				zdeskLeftLabelRenderer.setSize( drawArea.clientWidth/2, drawArea.clientHeight );
-				zdeskLeftLabelRenderer.domElement.style.position = 'absolute';
-				zdeskLeftLabelRenderer.domElement.style.top = '0px';
-				zdeskLeftLabelRenderer.domElement.style.left = '0px';
-				zdeskLeftLabelRenderer.domElement.style.pointerEvents = 'none';
-				
-				zdeskRightLabelRenderer = new THREE.CSS2DRenderer('right');
-				zdeskRightLabelRenderer.setSize( drawArea.clientWidth/2, drawArea.clientHeight );
-				zdeskRightLabelRenderer.domElement.style.position = 'absolute';
-				zdeskRightLabelRenderer.domElement.style.top = '0px';
-				zdeskRightLabelRenderer.domElement.style.left = ''+drawArea.clientWidth/2+'px';
-				zdeskRightLabelRenderer.domElement.style.pointerEvents = 'none';
-				
-				drawArea.appendChild( zdeskLeftLabelRenderer.domElement );
-				drawArea.appendChild( zdeskRightLabelRenderer.domElement );
-				
-				zdeskStereoEffect = new THREE.zdeskStereoEffect( zdeskGeometryRenderer, zdeskLeftLabelRenderer, zdeskRightLabelRenderer, 1200*scale );
-				
-	            makeSlideFunc(pathToSlide);
-                mainOnAnimationFrame()
-   	            zdeskSetRenderMode('mono');  				
-}
-
-
-function zdeskHandleResize() {
+function zdeskSetRenderZoneSizes() {
     if (zdeskRenderMode == 'mono') {
 	   zdeskCamera.aspect = (drawArea.clientWidth/ drawArea.clientHeight);
        zdeskCamera.updateProjectionMatrix();
@@ -471,8 +434,9 @@ function zdeskHandleResize() {
   zdeskRender();
 }
 
-function zdeskHandleControl() {
-   zdeskControls.update();
+function zdeskAnimate() {
+  if (zdeskControls)	
+     zdeskControls.update();
 }
 
 function zdeskRender() {
@@ -789,8 +753,8 @@ function zdeskSetPointColor(color) { zdeskPointColor = color; }
 function zdeskSetLineColor(color) { zdeskLineColor = color; } 
 function zdeskSetObjectColor(color) { zdeskObjectColor = color; } 
 function zdeskSetMarkColor(color) { zdeskMarkColor = color; } 
-function zdeskSetTriangleColor(color) { zdeskTriangleColor = zdeskForceColor(color); } 
-function zdeskSetLabelColor(color) { zdeskLabelColor = zdeskForceColor(color); } 
+function zdeskSetTriangleColor(color) { zdeskTriangleColor = color; } 
+function zdeskSetLabelColor(color) { zdeskLabelColor = color; } 
 function zdeskSetTransparent(transparent) { zdeskTransparent = transparent; } 
 
 // frames control

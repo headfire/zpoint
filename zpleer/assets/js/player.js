@@ -2,16 +2,24 @@ var playerAbout = 'hide';
 var playerAutohide = 'off';
 var playerRender = 'mono';
 
-function playerInit(paper, slide) {
+function playerStartSlide(paper, slide) {
   mainCloneToolbar();
   playerSetInfo();
   webgl = document.getElementById( 'webgl' )
-  if ((paper == 'nopaper') && (slide == 'noslide')) {
-	 zdeskStartEmpty(webgl, 'assets/img/textures/')
-  } else {
-     zdeskStartSlide(webgl, 'assets/img/textures/', 'slides'+'/' + paper + '/' + slide +'/')
-     mainLoadSlideInfo(paper, slide);
-   }	 
+  zdeskStartSlide(webgl, 'assets/img/textures', 'slides'+'/' + paper + '/' + slide, playerOnSlideReady)
+}
+
+function playerStartEmpty() {
+  mainCloneToolbar();
+  playerSetInfo();
+  webgl = document.getElementById( 'webgl' )
+  zdeskStartEmpty(webgl, 'assets/img/textures', playerOnSlideReady)
+}
+
+function playerOnSlideReady() {
+  window.addEventListener( 'resize', mainOnWindowResize , false );
+  requestAnimationFrame( mainOnAnimationFrame );
+  mainSetHtmlByClass('slide-title', zdeskGetSlideName())
 }
 
 function playerOnPlay() {
@@ -140,36 +148,17 @@ document.webkitCancelFullScreen();
 }
 }
 
-
-function mainLoadSlideInfo(paper, slide) {
-   var filename = 'slides' + '/' + paper + '/' + slide + '/' + 'slide_info.json?time='+ new Date().getTime();
-   var slideName = '';
-   var xmlhttp = new XMLHttpRequest();
-   xmlhttp.open('GET', filename, true);
-   xmlhttp.onreadystatechange = function() {
-     if (xmlhttp.readyState == 4) {
-       if (xmlhttp.status == 200) {
-	       var slideInfo = JSON.parse(xmlhttp.responseText);
-		   mainSetHtmlByClass('slide-title', slideInfo.slideName)
-		   mainSetHtmlByClass('html-title', 'Точка сборки 3D | ' + slideInfo.slideName)
-	    }
-	 }
-  };
- xmlhttp.send(null); 
-}
-
-
 function mainOnFullScreen() {
   launchFullScreen(document.getElementById( 'drawZone' ));
 }
 
 function mainOnWindowResize() {
-  zdeskHandleResize();
+  zdeskSetRenderZoneSizes();
 }
 
 function mainOnAnimationFrame() {
   requestAnimationFrame( mainOnAnimationFrame );
-  zdeskHandleControl();
+  zdeskAnimate();
 }
 
 

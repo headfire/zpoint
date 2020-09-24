@@ -26,7 +26,7 @@
 				  </div>
 				</div>
 				<div class='controls-center'>
-					<span class='slide-title' >Система создания 3D стерео презентаций</span>
+					<span class='slide-title' ></span>
 				</div>
 				<div  class='controls-right'>
 				    <div title='Поделится' class='btn-share hide'>
@@ -201,17 +201,12 @@
   // START SYSTEM
   
   const queryString = window.location.search;
-  console.log(queryString);
   const urlParams = new URLSearchParams(queryString);
-  paper = 'nopaper'
-  slide = 'noslide'
-  if (urlParams.has('paper'))
-     paper = urlParams.get('paper')
-  if (urlParams.has('slide'))
-	 slide = urlParams.get('slide')
-	 
-  playerInit(paper, slide);  
-  window.addEventListener( 'resize', mainOnWindowResize , false );
+  if (urlParams.has('paper') && urlParams.has('slide')) {
+     playerStartSlide(urlParams.get('paper'), urlParams.get('slide'));  
+  } else {
+     playerStartEmpty();  
+  }
   
 </script>
 </body>
