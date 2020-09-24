@@ -1,46 +1,38 @@
 var playerAbout = 'hide';
 var playerAutohide = 'off';
-var playerRender = 'mono';
+var playerRenderMode = 'mono';
 
-function playerStartSlide(paper, slide) {
-  mainCloneToolbar();
-  playerSetInfo();
-  webgl = document.getElementById( 'webgl' )
-  zdeskStartSlide(webgl, 'assets/img/textures', 'slides'+'/' + paper + '/' + slide, playerOnSlideReady)
-}
+
+//**********************************************
+//************** INIT FUNCTION  ****************
+//**********************************************
 
 function playerStartEmpty() {
-  mainCloneToolbar();
+  playerCloneToolbar();
   playerSetInfo();
   webgl = document.getElementById( 'webgl' )
-  zdeskStartEmpty(webgl, 'assets/img/textures', playerOnSlideReady)
+  zpStartEmpty(webgl, 'assets/img/textures', playerOnSlideReady)
+}
+
+function playerStartSlide(paper, slide) {
+  playerCloneToolbar();
+  playerSetInfo();
+  webgl = document.getElementById( 'webgl' );
+  zpStartSlide(webgl, 'assets/img/textures', 'slides'+'/' + paper + '/' + slide, playerOnSlideReady);
 }
 
 function playerOnSlideReady() {
-  window.addEventListener( 'resize', mainOnWindowResize , false );
-  requestAnimationFrame( mainOnAnimationFrame );
-  mainSetHtmlByClass('slide-title', zdeskGetSlideName())
+  playerSetHtmlByClass('slide-title', zpGetSlideName())
+  window.addEventListener( 'resize', playerOnWindowResize , false );
+  requestAnimationFrame( playerOnAnimationFrame );
 }
 
-function playerOnPlay() {
-	
-}
-
-function playerOnStop() {
-	
-}
-
-function playerOnStepForward() {
-	
-}
-
-function playerOnStepBackward() {
-	
-}
-
+//**********************************************
+//**************    EVENT FUNCTION *************
+//**********************************************
 
 function playerOnCamera() {
-   zdeskHome();
+   zpHome();
 }
 
 function playerOnDecor() {
@@ -48,18 +40,18 @@ function playerOnDecor() {
 }
 
 function playerOnRender() {
-  if (playerRender == 'mono')	{
- 	 playerRender = 'cross-eye'; 
+  if (playerRenderMode == 'mono')	{
+ 	 playerRenderMode = 'cross-eye'; 
      playerSetStyle('btn-render', 'blue');
-  } else if (playerRender == 'cross-eye') {
-     playerRender = 'side-by-side';
+  } else if (playerRenderMode == 'cross-eye') {
+     playerRenderMode = 'side-by-side';
      playerSetStyle('btn-render', 'red');
-  } else if (playerRender == 'side-by-side') {
-	 playerRender = 'mono'; 
+  } else if (playerRenderMode == 'side-by-side') {
+	 playerRenderMode = 'mono'; 
      playerSetStyle('btn-render', 'gray');
   }	 
-  zdeskSetRenderMode(playerRender)   
-  playerSetStyle('drawzone',playerRender)
+  zpSetRenderMode(playerRenderMode)   
+  playerSetStyle('drawzone',playerRenderMode)
   playerSetInfo();
 }
 
@@ -91,15 +83,50 @@ function playerOnAbout() {
   }	 
 }
 
-function playerSetStyle(mainClassName, styleClasses) {
-  var items = document.getElementsByClassName(mainClassName);
-  for(item of items)
-	  item.className = mainClassName + ' ' + styleClasses;
+
+function playerOnPlay() {
+	
+}
+
+function playerOnStop() {
+	
+}
+
+function playerOnStepForward() {
+	
+}
+
+function playerOnStepBackward() {
+	
 }
 
 
-//UTIL
-function mainSetHtmlByClass(className, innerHTML) {
+//**********************************************
+//****************  SYSTEM EVENTS FUNCTION *****
+//**********************************************
+
+function playerOnWindowResize() {
+  zpSetRenderZoneSizes();
+}
+
+function playerOnAnimationFrame() {
+  requestAnimationFrame( playerOnAnimationFrame );
+  zpAnimate();
+}
+
+
+//**********************************************
+//****************  UTIL FUNCTION **************
+//**********************************************
+
+function playerSetStyle(generalClassName, styleClasses) {
+  var items = document.getElementsByClassName(generalClassName);
+  for(item of items)
+	  item.className = generalClassName + ' ' + styleClasses;
+}
+
+
+function playerSetHtmlByClass(className, innerHTML) {
 var x = document.getElementsByClassName(className);
 var i;
   for (i = 0; i < x.length; i++) {
@@ -109,58 +136,45 @@ var i;
 
 function playerSetInfo() {
    var info = '';
-   if (playerRender == 'mono') {
+   if (playerRenderMode == 'mono') {
       info = '<font color="#666666">Режим 3D Моно: </font>';
-   } else if(playerRender == 'cross-eye') {
+   } else if(playerRenderMode == 'cross-eye') {
       info = '<font color="blue">Режим 3D Перекрестный взгляд: </font>';
-   } else if (playerRender == 'side-by-side') {
+   } else if (playerRenderMode == 'side-by-side') {
       info = '<font color="red">Режим 3D Side By Syde: </font>';
    }
    info += "Мышь: Левая: ОСМОТР, Средняя: ПРИБЛИЖЕНИЕ, Правая: СМЕЩЕНИЕ " 
-   mainSetHtmlByClass('info', info);
+   playerSetHtmlByClass('info', info);
 }
 
-function mainCloneToolbar() {
+function playerCloneToolbar() {
    var toolbarCode = document.getElementById('mono-toolbar').innerHTML;
    document.getElementById('left-toolbar').innerHTML = toolbarCode;
    document.getElementById('right-toolbar').innerHTML = toolbarCode;
 }
 
 //Запустить отображение в полноэкранном режиме
-function launchFullScreen(element) {
-if(element.requestFullScreen) {
-element.requestFullScreen();
-} else if(element.mozRequestFullScreen) {
-element.mozRequestFullScreen();
-} else if(element.webkitRequestFullScreen) {
-element.webkitRequestFullScreen();
-}
+function playerFullScreenOn() {
+  element =	document.getElementById( 'drawZone' );
+  if (element.requestFullScreen) {
+      element.requestFullScreen();
+  } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+  } else if (element.webkitRequestFullScreen) {
+      element.webkitRequestFullScreen();
+  }
 }
 
 // Выход из полноэкранного режима
-function cancelFullscreen() {
-if(document.cancelFullScreen) {
-document.cancelFullScreen();
-} else if(document.mozCancelFullScreen) {
-document.mozCancelFullScreen();
-} else if(document.webkitCancelFullScreen) {
-document.webkitCancelFullScreen();
+function playerFullScreenOff() {
+  if(document.cancelFullScreen) {
+     document.cancelFullScreen();
+  } else if (document.mozCancelFullScreen) {
+     document.mozCancelFullScreen();
+  } else if(document.webkitCancelFullScreen) {
+     document.webkitCancelFullScreen();
+  }
 }
-}
-
-function mainOnFullScreen() {
-  launchFullScreen(document.getElementById( 'drawZone' ));
-}
-
-function mainOnWindowResize() {
-  zdeskSetRenderZoneSizes();
-}
-
-function mainOnAnimationFrame() {
-  requestAnimationFrame( mainOnAnimationFrame );
-  zdeskAnimate();
-}
-
 
 
 

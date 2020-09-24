@@ -7,7 +7,7 @@
  * Off-axis stereoscopic effect based on http://paulbourke.net/stereographics/stereorender/
  */
 
-THREE.zdeskStereoEffect = function ( renderer, leftCss, rightCss, zeroDistance ) {   // headfire
+THREE.headfireStereoEffect = function ( renderer, leftCss, rightCss, zeroDistance ) {   // headfire
 
 	// API
 
