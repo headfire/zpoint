@@ -3,7 +3,7 @@
 <head>
     <meta charset='UTF-8' />
     <title class='html-title'>Точка сборки 3D</title>
-    <link rel='shortcut icon' href='assets/images/favicon.png' />
+    <link rel='shortcut icon' href='assets/img/favicon.png' />
     <link href='assets/css/player.css' rel='stylesheet' type='text/css' />
 </head>
 <body>
@@ -199,7 +199,6 @@
 <script>
 
   // START SYSTEM
-  playerInit();  
   
   const queryString = window.location.search;
   console.log(queryString);
@@ -211,8 +210,7 @@
   if (urlParams.has('slide'))
 	 slide = urlParams.get('slide')
 	 
-  playerLoadSlide(paper, slide);
-  mainLoadSlideInfo(paper, slide);
+  playerInit(paper, slide);  
   window.addEventListener( 'resize', mainOnWindowResize , false );
   
 </script>

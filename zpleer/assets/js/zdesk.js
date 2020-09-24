@@ -29,7 +29,6 @@ var zdeskVisibleEndFrame;
 var zdeskObjects = Array();
 var zdeskMessages = Array();
 
-
 function zdeskSlideGetParamDefault() {
    var param = Object();
    param.isDesk = true; 	 
@@ -40,15 +39,20 @@ function zdeskSlideGetParamDefault() {
    param.deskDY = 0; 	 
    param.deskDZ = -50;
  return param;
- }  
+}  
 
 function zdeskSlideMakeDefault() {
+
 }
 
-function zdeskLoadSlide(domElement, pathToTextures, pathToSlide) {
-   var filename = pathToSlide + '/' + 'slide.js?time='+ new Date().getTime();;
+function zdeskStartEmpty(domElement, pathToTextures) {
+   zdeskInit(domElement, pathToTextures, zdeskSlideGetParamDefault, zdeskSlideMakeDefault,'');
+}
+
+function zdeskStartSlide(domElement, pathToTextures, pathToSlide ) {
    var slideGetParam = zdeskSlideGetParamDefault;
    var slideMake = zdeskSlideMakeDefault;
+   var filename = pathToSlide + '/slide.js?time=' + new Date().getTime();
    var xmlhttp = new XMLHttpRequest();
    xmlhttp.open('GET', filename, true);
    xmlhttp.onreadystatechange = function() {
@@ -60,17 +64,11 @@ function zdeskLoadSlide(domElement, pathToTextures, pathToSlide) {
            slideMake = loadedSlideMake;
  		 } catch(e) { console.log(e); }
         }
-     param = slideGetParam() 
-     zdeskInit(document.getElementById( 'webgl' ),'assets/img/textures/', param);
-	 slideMake('slides'+'/'+paper+'/'+slide+'/');
-     mainOnAnimationFrame()
-   	 zdeskSetRenderMode('mono');  				
+     zdeskInit(domElement, pathToTextures, slideGetParam, slideMakeDefault, pathToSlide);
 	  }
   };
  xmlhttp.send(null); 
 }
-
-
 
 function zdeskXLabel(x,y,z, txt, color) {
 	
@@ -316,8 +314,9 @@ function zdeskAdd( object ) {
 }
 
 
-function zdeskInit(container, texturePath, param) {
-	
+function zdeskInit(container, texturePath, getParamFunc, makeSlideFunc, pathToSlide) {
+ 	            param = getParamFunc() 
+  
 	            zdeskScaleA = param.scaleA
 				zdeskScaleB = param.scaleB
 	            scale = zdeskScaleA/zdeskScaleB
@@ -325,7 +324,7 @@ function zdeskInit(container, texturePath, param) {
  			    if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 		        drawArea = container;
-
+				
 				zdeskCamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000*scale );
 				zdeskCamera.up.set(0,0,1); // задает правильную систему координат ВАЖНО!!!
 		        zdeskCamera.position.set(300*scale,-600*scale,200*scale);
@@ -435,9 +434,9 @@ function zdeskInit(container, texturePath, param) {
 				
 				zdeskStereoEffect = new THREE.zdeskStereoEffect( zdeskGeometryRenderer, zdeskLeftLabelRenderer, zdeskRightLabelRenderer, 1200*scale );
 				
-
-				
-				
+	            makeSlideFunc(pathToSlide);
+                mainOnAnimationFrame()
+   	            zdeskSetRenderMode('mono');  				
 }
 
 

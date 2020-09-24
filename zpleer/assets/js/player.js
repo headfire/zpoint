@@ -1,12 +1,17 @@
-var mainErrorMessage = '';
-
 var playerAbout = 'hide';
 var playerAutohide = 'off';
 var playerRender = 'mono';
 
-function playerInit() {
+function playerInit(paper, slide) {
   mainCloneToolbar();
   playerSetInfo();
+  webgl = document.getElementById( 'webgl' )
+  if ((paper == 'nopaper') && (slide == 'noslide')) {
+	 zdeskStartEmpty(webgl, 'assets/img/textures/')
+  } else {
+     zdeskStartSlide(webgl, 'assets/img/textures/', 'slides'+'/' + paper + '/' + slide +'/')
+     mainLoadSlideInfo(paper, slide);
+   }	 
 }
 
 function playerOnPlay() {
@@ -95,22 +100,16 @@ var i;
 }
 
 function playerSetInfo() {
-   var render = '';
-   if (playerRender == 'cross-eye') {
-      render = '3D Перекрестный взгляд';
-      }
-   if (playerRender == 'side-by-side') {
-      render = '3D TV SideBySyde';
-      }
    var info = '';
-   if (mainErrorMessage !== '') {
-     info += "<font color='red'>" + mainErrorMessage +"</font>";
-   } else { 
-      info += "<font color='blue'>"+render+"</font> ";
-	  info += "Мышь: Левая: ОСМОТР, Средняя: ПРИБЛИЖЕНИЕ, Правая: СМЕЩЕНИЕ " 
-	  info += zdeskGetMessages(); 
+   if (playerRender == 'mono') {
+      info = '<font color="#666666">Режим 3D Моно: </font>';
+   } else if(playerRender == 'cross-eye') {
+      info = '<font color="blue">Режим 3D Перекрестный взгляд: </font>';
+   } else if (playerRender == 'side-by-side') {
+      info = '<font color="red">Режим 3D Side By Syde: </font>';
    }
-   mainSetHtmlByClass('info',info);
+   info += "Мышь: Левая: ОСМОТР, Средняя: ПРИБЛИЖЕНИЕ, Правая: СМЕЩЕНИЕ " 
+   mainSetHtmlByClass('info', info);
 }
 
 function mainCloneToolbar() {
@@ -141,11 +140,6 @@ document.webkitCancelFullScreen();
 }
 }
 
- 
-function playerLoadSlide(paper, slide) {
-  webgl = document.getElementById( 'webgl' )
-  zdeskLoadSlide(webgl, 'assets/img/textures/', 'slides'+'/' + paper + '/' + slide +'/')
-}
 
 function mainLoadSlideInfo(paper, slide) {
    var filename = 'slides' + '/' + paper + '/' + slide + '/' + 'slide_info.json?time='+ new Date().getTime();
