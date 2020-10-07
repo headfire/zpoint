@@ -1,6 +1,7 @@
 var playerAbout = 'hide';
 var playerAutohide = 'off';
 var playerRenderMode = 'mono';
+var playerDecorMode = 'desk';
 
 
 //**********************************************
@@ -36,7 +37,17 @@ function playerOnCamera() {
 }
 
 function playerOnDecor() {
-	
+  if (playerDecorMode == 'desk') {
+     playerDecorMode = 'axis';
+     playerSetStyle('btn-decor', 'blue');
+  } else if (playerDecorMode == 'axis') {
+	 playerDecorMode = 'empty'; 
+     playerSetStyle('btn-decor', 'red');
+  } else if (playerDecorMode == 'empty')	{
+ 	 playerDecorMode = 'desk'; 
+     playerSetStyle('btn-decor', 'gray');
+  }	 
+  zpSetDecorMode(playerDecorMode)   
 }
 
 function playerOnRender() {

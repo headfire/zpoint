@@ -20,6 +20,8 @@ var zpGeometryRenderer, zpLeftLabelRenderer, zpRightLabelRenderer ,zpStereoEffec
 
 var zpRenderMode = 'mono';
 
+var zpAxisParent, zpDeskParent, zpSceneParent
+
 
 function zpStartEmpty(drawAreaElement, texturesDir, onReadyFunc) {
    zpDrawArea = drawAreaElement;	
@@ -54,16 +56,16 @@ function zpStartSlide(drawAreaElement, texturesDir, slideDir, onReadyFunc) {
  xmlhttp.send(null); 
 }
 
-
 function zpInit() {
 	
     zpScene = new THREE.Scene();
 	zpLoader = new THREE.BufferGeometryLoader();
-
-	zpSlideFunc();
-
-	zpScale = zpScaleA/zpScaleB
-
+	
+    zpSceneParent =  new THREE.Object3D();
+    zpSlideFunc();
+	
+	zpScale = zpScaleA/zpScaleB;
+	
 	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 	zpCamera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 3000*zpScale );
@@ -126,16 +128,17 @@ function zpInit() {
 }
 
 function zpDesk() {
-	
+	zpDeskParent = new THREE.Object3D();
+	zpScene.add(zpDeskParent)
 	var deskGeometry = new THREE.BoxGeometry( 1500*zpScale, 1000*zpScale, 40*zpScale );
 	var deskTexture = THREE.ImageUtils.loadTexture( zpTexturesDir + '/wood.jpg', undefined, zpRender);
 	deskTexture.minFilter = THREE.LinearFilter;
 	var deskMaterial = new THREE.MeshBasicMaterial( {  map: deskTexture } );
 	deskMesh = new THREE.Mesh( deskGeometry, deskMaterial );
 	deskMesh.position.set(zpDeskDX, zpDeskDY, zpDeskDZ-22*zpScale); 
-	zpScene.add( deskMesh );
+	zpDeskParent.add( deskMesh );
 
-	zpLabel((-1500/2 + 20)*zpScale + zpDeskDX, (1000/2 + 20)*zpScale + zpDeskDY, zpDeskDZ, 'A0 M'+zpScaleB+':'+zpScaleA, 0xbbbbbb);
+	zpLabel(zpDeskParent , zpDecart((-1500/2 + 20)*zpScale + zpDeskDX, (1000/2 + 20)*zpScale + zpDeskDY, zpDeskDZ), 'A0 M'+zpScaleB+':'+zpScaleA, 0xbbbbbb);
 
 	
 	var paperGeometry = new THREE.BoxGeometry( 1189*zpScale, 841*zpScale, 2*zpScale);
@@ -147,7 +150,7 @@ function zpDesk() {
 	var paperMaterial = new THREE.MeshBasicMaterial( {  map: paperTexture } );
 	paperMesh = new THREE.Mesh( paperGeometry, paperMaterial );
 	paperMesh.position.set(zpDeskDX, zpDeskDY, zpDeskDZ-1.9*zpScale); // not 2 for flat surfaces visible
-	zpScene.add( paperMesh );
+	zpDeskParent.add( paperMesh );
 
 	var cnopGeometry = new THREE.CylinderGeometry( 10*zpScale, 10*zpScale, 6*zpScale, 12, 1 );
 	var cnopMaterial =  new THREE.MeshLambertMaterial( { color:0x707070 } ); // shading: THREE.FlatShading
@@ -155,41 +158,98 @@ function zpDesk() {
 	cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
 	cnopMesh.position.set(zpDeskDX+564*zpScale,zpDeskDY+390*zpScale,zpDeskDZ+0);
 	cnopMesh.rotation.x = Math.PI/2;
-	zpScene.add( cnopMesh );
+	zpDeskParent.add( cnopMesh );
 	
 	cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
 	cnopMesh.position.set(zpDeskDX-564*zpScale,zpDeskDX+390*zpScale,zpDeskDZ);
 	cnopMesh.rotation.x = Math.PI/2;
-	zpScene.add( cnopMesh );
+	zpDeskParent.add( cnopMesh );
 
 	cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
 	cnopMesh.position.set(zpDeskDX+564*zpScale,zpDeskDY-390*zpScale,zpDeskDZ);
 	cnopMesh.rotation.x = Math.PI/2;
-	zpScene.add( cnopMesh );
+	zpDeskParent.add( cnopMesh );
 
 	cnopMesh = new THREE.Mesh( cnopGeometry, cnopMaterial );
 	cnopMesh.position.set(zpDeskDX-564*zpScale,zpDeskDY-390*zpScale,zpDeskDZ);
 	cnopMesh.rotation.x = Math.PI/2;
-	zpScene.add( cnopMesh );
+	zpDeskParent.add( cnopMesh );
 	
 	zpDrawing = new THREE.Group();
-	zpScene.add( zpDrawing );
+	zpDeskParent.add( zpDrawing );
 }		
 
 
 // ********************************************
 // ********************************************
 // ********************************************
-function zpLabel(x,y,z, txt, color) {
+function zpDecart( x, y, z) {
+   z = z || 0;
+   return new THREE.Vector3(x, y, z);
+}
+		    
+function zpPolar( radius, angle, z) {
+   z = z || 0;
+   return new THREE.Vector3(radius*Math.cos(angle), radius*Math.sin(angle), z);
+}
+
+function zpPointOnLine(start, end, k) {
+  var dx = end.x - start.x; 
+  var dy = end.y - start.y; 
+  var dz = end.z - start.z;
+  return zpDecart(start.x + dx*k, start.y + dy*k, start.z + dz*k);
+}
+
+function zpDistance(start, end) {
+  var dx = end.x - start.x; 
+  var dy = end.y - start.y; 
+  var dz = end.z - start.z;
+  return Math.sqrt(dx*dx+dy*dy+dz*dz);   
+}
+
+
+function zpVect(par, start, end, lineWidth, pColor) {
+  var arrowLen = 10*lineWidth; 
+  var endLine = zpPointOnLine(start, end, 1 - ((arrowLen/2)  / zpDistance(start, end)));
+  var conePlace = zpPointOnLine(endLine, end, 1/2);
+  zpLine(start, endLine, pColor, lineWidth);
+  zpArrow(endLine, arrowLen, end, lineWidth, pColor);
+}
+
+function zpCoord(par, pColor, lineWidth, len) {
 	
-    var r = Math.floor( color / (256*256) ) % 256;
-    var g = Math.floor( color / 256 ) % 256;
-    var b = color % 256;
+  var center = zpDecart(0,0,0);
+  var plen = len/3;
+  var pSize = lineWidth*2;
+  var pLineWidth = 3*zpScale;
+  var x = zpDecart(len,0,0);
+  var y = zpDecart(0,len,0);
+  var z = zpDecart(0,0,len);
+  zpPoint(par, center, pColor, pSize); zpLabel(par, center,'O');
+  zpVect(par, center,x, pColor, pLineWidth); zpLabel(par, x,'x');
+  zpVect(par, center,y, pColor, pLineWidth); zpLabel(par, y,'y');
+  zpVect(par, center,z, pColor, pLineWidth); zpLabel(par, z,'z');
+  
+  zpPoint(par, zpDecart(plen,0,0), pColor, pSize);
+  zpPoint(par, zpDecart(0,plen,0), pColor, pSize);
+  zpPoint(par, zpDecart(0,0,plen), pColor, pSize);
+
+  zpPoint(par, zpDecart(plen*2,0,0), pColor, pSize);
+  zpPoint(par, zpDecart(0,plen*2,0), pColor, pSize);
+  zpPoint(par, zpDecart(0,0,plen*2), pColor, pSize);
+}
+
+function zpLabel(par,  place, txt, pColor) {
+	/*
+    var r = Math.floor( pColor / (256*256) ) % 256;
+    var g = Math.floor( pColor / 256 ) % 256;
+    var b = pColor % 256;
 	clr = 'rgb(' + r + ',' + g + ',' + b + ')';
-	
+	*/
+	clr = pColor;
 	dLabel = 15 * zpScaleA/zpScaleB;
 
-    place = new THREE.Vector3 (x+dLabel, y+dLabel, z+dLabel);
+    place = new THREE.Vector3 (place.x+dLabel, place.y+dLabel, place.z+dLabel);
   
 	var div = document.createElement( 'div' );
 	div.className = 'label';
@@ -199,7 +259,7 @@ function zpLabel(x,y,z, txt, color) {
 	var label = new THREE.CSS2DObject( div , 'left');
 	label.position.copy(place);
 	//zpAdd( label );
-	zpScene.add(label);
+	par.add(label);
 
 	var div = document.createElement( 'div' );
 	div.className = 'label';
@@ -209,10 +269,44 @@ function zpLabel(x,y,z, txt, color) {
 	var label = new THREE.CSS2DObject( div , 'right');
 	label.position.copy(place);
 	//zpAdd( label );
-	zpScene.add(label);
+	par.add(label);
+}
+
+function zpLine(par,startPlace, endPlace, pColor, pWidth) {
+    var geometry = new THREE.CylinderGeometry( 1, 1, 1 );
+	var material = new THREE.MeshLambertMaterial( { color: pColor} );
+    var object = new THREE.Mesh( geometry, material );
+	object.position.copy(startPlace);
+	object.position.lerp( endPlace, 0.5 );
+	object.scale.set( pWidth, startPlace.distanceTo( endPlace ), pWidth);
+	object.lookAt( endPlace );
+	object.rotateOnAxis(new THREE.Vector3(1,0,0),Math.PI/2);
+	par.add( object );
+}
+
+function zpPoint(par, place, pColor, pWidth) {
+	var sphereGeometry = new THREE.IcosahedronGeometry( pWidth * 1.5, 2);
+    var material = new THREE.MeshLambertMaterial( { color: pColor} );
+	var mesh = new THREE.Mesh( sphereGeometry, material );
+    mesh.position.copy(place);
+	par.add(mesh);
+}
+
+function zpArrow(par, place, lenght, lookAt, pColor, pWidth) {
+    var geometry = new THREE.CylinderGeometry( 0, pWidth*3, lenght, 8 );
+    var material = new THREE.MeshLambertMaterial( { color: pColor} );
+	var object = new THREE.Mesh( geometry, material );
+    object.position.copy(place);
+    if (!(lookAt === undefined))
+	   object.lookAt( lookAt );
+    object.rotateOnAxis(new THREE.Vector3(1,0,0),Math.PI/2);
+    par.add( object );
 }
 
 
+// ********************************************
+// ********************************************
+// ********************************************
 
 function zpGetSlideName() {
 	return zpSlideName;
@@ -253,6 +347,20 @@ function zpSetRenderMode(mode) {
    zpSetRenderZoneSizes();
 }
 
+function zpSetDecorMode(mode) {
+  zpDecorMode = mode;
+   if (zpDecorMode ==  'empty') {
+	  zpDeskParent.visible = false; 
+ //     zpAxisParent.visible = false; 
+   }   else if (zpDecorMode ==  'desk')  {	  
+	  zpDeskParent.visible = true; 
+ //     zpAxisParent.visible = false; 
+   }   else if (zpDecorMode ==  'axis')  {	  
+	  zpDeskParent.visible = false; 
+  //    zpAxisParent.visible = true; 
+   }
+   zpRender();
+}
 
 function zpSetRenderZoneSizes() {
     if (zpRenderMode == 'mono') {
@@ -292,7 +400,7 @@ function zpSetRenderZoneSizes() {
 var zp = new Object();
 
 zp.slideName = function(slideName) {
-  zpSlideName = 	slideName;
+  zpSlideName = slideName;
 }
 
 zp.setParam = function(scaleA, scaleB, deskDX, deskDY, deskDZ) {
@@ -303,31 +411,17 @@ zp.setParam = function(scaleA, scaleB, deskDX, deskDY, deskDZ) {
    zpDeskDZ = deskDZ;
 }
 
-zp.label = function (x,y,z, txt, color) {
-   zpLabel(x,y,z, txt, color)
+zp.label = function (place, txt, color) {
+   zpLabel(zpSceneParent, place, txt, color)
 }
 
-
-zp.point =  function(x,y,z, pColor, size) {
-	var sphereGeometry = new THREE.IcosahedronGeometry( size * zpScaleA/zpScaleB*2, 2 );
-    var material = new THREE.MeshLambertMaterial( { color: pColor} );
-	var mesh = new THREE.Mesh( sphereGeometry, material );
-      mesh.position.copy(new THREE.Vector3 (x, y, z));
-	zpScene.add(mesh);
+zp.point =  function(place, pColor, size) {
+   zpPoint(zpSceneParent, place, pColor, size)	
 }
 
 zp.line = function (startPlace, endPlace, pColor, pLineWidth) {
-    var geometry = new THREE.CylinderGeometry( 1, 1, 1 );
-	var material = new THREE.MeshLambertMaterial( { color: pColor} );
-    var object = new THREE.Mesh( geometry, material );
-	object.position.copy(startPlace);
-	object.position.lerp( endPlace, 0.5 );
-	object.scale.set( pLineWidth*zpScaleA/zpScaleB/1.5, startPlace.distanceTo( endPlace ), pLineWidth*zpScaleA/zpScaleB/1.5 );
-	object.lookAt( endPlace );
-	object.rotateOnAxis(new THREE.Vector3(1,0,0),Math.PI/2);
-	zpScene.add( object );
+  zpLine(zpSceneParent, startPlace, endPlace, pColor, pLineWidth)
 }
-
 
 zp.curve = function (shapeName, pColor, pLineWidth) {
 	jsonFilename = zpSlideDir + '/'+ shapeName +'.json';
@@ -350,7 +444,7 @@ zp.curveLine = function (shapeName, pColor, pLineWidth) {
 	zpLoader.load(jsonFilename, function(geometry) {
 	line_material = new THREE.LineBasicMaterial({color: pColor, linewidth: pLineWidth});
 	line = new THREE.Line(geometry, line_material);
-	zpScene.add(line);
+	zpSceneParent.add(line);
 	zpRender();
 	});
 }	
@@ -380,7 +474,7 @@ zp.shape = function (shapeName, pColor, pSpecular, pShininess, pOpacity) {
 				mesh = new THREE.Mesh(geometry, shape_phong_material);
 				mesh.castShadow = true;
 				mesh.receiveShadow = true;
-				zpScene.add(mesh);
+				zpSceneParent.add(mesh);
 				zpRender();
 			});
 }			
